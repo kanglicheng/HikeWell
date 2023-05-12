@@ -22,6 +22,9 @@ function App() {
           <li>
             <a href="/users">Users Table </a>
           </li>
+          <li>
+            <a href="/trailmaps">TrailMaps Table </a>
+          </li>
         </ul>
       </nav>
       <label>Search Hiking Trails </label>
