@@ -7,11 +7,34 @@ export const Reviews = () => {
 
       <button>View All Reviews</button>
 
-      <form>
-        <label>Review ID</label>
-        <input type="number" />
-        <button>Delete Review </button>
-      </form>
+      <div style={{ margin: "20px" }}>
+        <label>
+          <b>Add a Review</b>
+        </label>
+        <form>
+          <div>
+            <label>Enjoyability</label>
+            <input type="number" />
+            <label>Difficulty</label>
+            <input type="number" />
+          </div>
+          <div>
+            <label>Description</label>
+            <input type="text" />
+            <label>User</label>
+            <select>
+              <option>Steven</option>
+            </select>
+            <label>Trail</label>
+            <select>
+              <option>Mt Wilson</option>
+            </select>
+          </div>
+          <div style={{ margin: "10px" }}>
+            <button>Add Review </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

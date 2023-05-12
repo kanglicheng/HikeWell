@@ -10,7 +10,7 @@ export const Maps = () => {
       <form>
         <label>Map ID</label>
         <input type="number" />
-        <button>Delete Map </button>
+        <button>Add Map </button>
       </form>
     </div>
   );
