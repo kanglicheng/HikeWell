@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Trais = () => {
+export const Trails = () => {
   const [showForm, setShowForm] = React.useState(false);
   const [selectedTrail, setSelectedTrail] = React.useState("");
 
