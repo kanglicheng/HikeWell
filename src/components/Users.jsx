@@ -7,11 +7,26 @@ export const Users = () => {
 
       <button>View All Users</button>
 
-      <form>
-        <label>User ID</label>
-        <input type="number" />
-        <button>Delete User </button>
-      </form>
+      <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
+        <label>
+          <b>Add a User</b>
+        </label>
+        <form>
+          <div>
+            <label>username </label>
+            <input type="text" />
+            <label> contact </label>
+            <input type="text" />
+          </div>
+          <div>
+            <label>experience level </label>
+            <input type="number" />
+          </div>
+          <div style={{ margin: "10px" }}>
+            <button>Add User </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

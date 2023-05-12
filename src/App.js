@@ -14,13 +14,13 @@ function App() {
             <a href="/trails">Trails Table </a>
           </li>
           <li>
-            <a href="/reviews">Review Table </a>
+            <a href="/reviews">Reviews Table </a>
           </li>
           <li>
             <a href="/maps">Maps Table </a>
           </li>
           <li>
-            <a href="/maps">Users Table </a>
+            <a href="/users">Users Table </a>
           </li>
         </ul>
       </nav>

@@ -7,7 +7,7 @@ export const Reviews = () => {
 
       <button>View All Reviews</button>
 
-      <div style={{ margin: "20px" }}>
+      <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
           <b>Add a Review</b>
         </label>
@@ -24,10 +24,13 @@ export const Reviews = () => {
             <label>User</label>
             <select>
               <option>Steven</option>
+              <option>Darren</option>
+              <option>Andrew</option>
             </select>
             <label>Trail</label>
             <select>
               <option>Mt Wilson</option>
+              <option>Moose Mountain</option>
             </select>
           </div>
           <div style={{ margin: "10px" }}>

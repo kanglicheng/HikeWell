@@ -8,6 +8,7 @@ import { About } from "./components/About";
 import { Reviews } from "./components/Reviews";
 import { Users } from "./components/Users";
 import { Maps } from "./components/Maps";
+import { Trais } from "./components/Trails";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/trails",
-    element: <Maps />,
+    element: <Trais />,
   },
 ]);
 

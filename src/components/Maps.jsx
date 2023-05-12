@@ -7,11 +7,18 @@ export const Maps = () => {
 
       <button>View All Maps</button>
 
-      <form>
-        <label>Map ID</label>
-        <input type="number" />
-        <button>Add Map </button>
-      </form>
+      <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
+        <label>
+          <b>Add a Map</b>
+        </label>
+        <form>
+          <label>Title</label>
+          <input type="text" />
+          <label>URL</label>
+          <input type="text" />
+          <button>Add Map </button>
+        </form>
+      </div>
     </div>
   );
 };
