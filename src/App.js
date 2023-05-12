@@ -11,21 +11,22 @@ function App() {
             <a href="/">Home </a>
           </li>
           <li>
-            <a href="/about">About </a>
+            <a href="/trails">Trails Table </a>
           </li>
           <li>
-            <a href="/share">Post a Review </a>
+            <a href="/reviews">Review Table </a>
           </li>
           <li>
-            <a href="/maps">Share your map! </a>
+            <a href="/maps">Maps Table </a>
+          </li>
+          <li>
+            <a href="/maps">Users Table </a>
           </li>
         </ul>
       </nav>
       <label>Search Hiking Trails </label>
       <input placeholder="eg Mt Wilson" type="text" />
       <button type="submit"> Find !</button>
-
-      <h2>Browse Trail Reviews</h2>
     </div>
   );
 }

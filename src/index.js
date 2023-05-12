@@ -5,7 +5,9 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { About } from "./components/About";
-import { ShareReview } from "./components/ShareReview";
+import { Reviews } from "./components/Reviews";
+import { Users } from "./components/Users";
+import { Maps } from "./components/Maps";
 
 const router = createBrowserRouter([
   {
@@ -18,8 +20,20 @@ const router = createBrowserRouter([
     element: <About />,
   },
   {
-    path: "/share",
-    element: <ShareReview />,
+    path: "/reviews",
+    element: <Reviews />,
+  },
+  {
+    path: "/users",
+    element: <Users />,
+  },
+  {
+    path: "/maps",
+    element: <Maps />,
+  },
+  {
+    path: "/trails",
+    element: <Maps />,
   },
 ]);
 
