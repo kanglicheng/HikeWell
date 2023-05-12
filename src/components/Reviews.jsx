@@ -65,20 +65,25 @@ export const Reviews = () => {
         >
           <form>
             <div>
-              <label>Name</label>
-              <input type="text" placeholder={selectedReview} />
-              <label>City</label>
-              <input type="text" />
+              <label>Enjoyability</label>
+              <input type="number" />
+              <label>Difficulty</label>
+              <input type="number" />
             </div>
             <div>
-              <label>State</label>
-              <input type="text" />
-              <label>Latitude</label>
-              <input type="number" />
-              <label>Longitude</label>
-              <input type="number" />
-              <label>Distance</label>
-              <input type="number" />
+              <label>Description</label>
+              <input placeholder={selectedReview} type="text" />
+              <label>User</label>
+              <select>
+                <option>Steven</option>
+                <option>Darren</option>
+                <option>Andrew</option>
+              </select>
+              <label>Trail</label>
+              <select>
+                <option>Mt Wilson</option>
+                <option>Moose Mountain</option>
+              </select>
             </div>
             <button onClick={() => setShowForm(false)}>Update Review</button>
           </form>
