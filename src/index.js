@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     element: <Trails />,
   },
   {
-    path: "/trailmap",
+    path: "/trailmaps",
     element: <TrailMaps />,
   },
 ]);
