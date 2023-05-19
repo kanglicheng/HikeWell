@@ -8,6 +8,7 @@ export const TrailMaps = () => {
 
   return (
     <div>
+      <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
           <li>
@@ -53,6 +54,8 @@ export const TrailMaps = () => {
             <tr>
               <th>trailID</th>
               <th>mapID</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +63,12 @@ export const TrailMaps = () => {
               <tr>
                 <td>{row.trailID}</td>
                 <td>{row.mapID}</td>
+                <td>
+                  <button>Edit</button>
+                </td>
+                <td>
+                  <button>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>

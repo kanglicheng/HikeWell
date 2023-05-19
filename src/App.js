@@ -3,8 +3,8 @@ import React from "react";
 
 function App() {
   return (
-    <div className="App">
-      <h1>HikeWell</h1>
+    <div>
+      <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
           <li>

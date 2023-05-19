@@ -5,6 +5,7 @@ export const Maps = () => {
 
   return (
     <div>
+      <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
           <li>
@@ -46,6 +47,9 @@ export const Maps = () => {
       <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
         <label>List of all user submitted Maps</label>
         <table>
+          <colgroup>
+            <col span={3} />
+          </colgroup>
           <thead>
             <tr>
               <th>mapID</th>

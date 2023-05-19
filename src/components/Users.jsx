@@ -18,6 +18,7 @@ export const Users = () => {
 
   return (
     <div>
+      <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
           <li>

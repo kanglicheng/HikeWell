@@ -32,6 +32,7 @@ export const Trails = () => {
 
   return (
     <div>
+      <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
           <li>
@@ -124,8 +125,8 @@ export const Trails = () => {
               <th>name</th>
               <th>city</th>
               <th>state</th>
-              <th>lat</th>
-              <th>long</th>
+              <th>latitude</th>
+              <th>longitude</th>
               <th>distance</th>
               <th>Edit</th>
               <th>Delete</th>
