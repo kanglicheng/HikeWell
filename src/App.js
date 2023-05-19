@@ -11,19 +11,19 @@ function App() {
             <a href="/">Home </a>
           </li>
           <li>
-            <a href="/trails">Trails Table </a>
+            <a href="/trails">Trails</a>
           </li>
           <li>
-            <a href="/reviews">Reviews Table </a>
+            <a href="/reviews">Reviews</a>
           </li>
           <li>
-            <a href="/maps">Maps Table </a>
+            <a href="/maps">Maps</a>
           </li>
           <li>
-            <a href="/users">Users Table </a>
+            <a href="/users">Users</a>
           </li>
           <li>
-            <a href="/trailmaps">TrailMaps Table </a>
+            <a href="/trailmaps">TrailMaps</a>
           </li>
         </ul>
       </nav>
