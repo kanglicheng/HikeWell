@@ -45,6 +45,7 @@ export const TrailMaps = () => {
           <select>
             <option>Northwest US</option>
           </select>
+          <button> Add TrailMap</button>
         </form>
       </div>
       <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
