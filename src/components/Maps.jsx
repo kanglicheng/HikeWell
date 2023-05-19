@@ -1,11 +1,34 @@
 import React from "react";
 
 export const Maps = () => {
+  const mockMapData = [{ mapID: 1, title: "Rockies", url: "maps.google.com" }];
+
   return (
     <div>
+      <nav className={"nav-bar"}>
+        <ul>
+          <li>
+            <a href="/">Home </a>
+          </li>
+          <li>
+            <a href="/trails">Trails</a>
+          </li>
+          <li>
+            <a href="/reviews">Reviews</a>
+          </li>
+          <li>
+            <a href="/maps">Maps</a>
+          </li>
+          <li>
+            <a href="/users">Users</a>
+          </li>
+          <li>
+            <a href="/trailmaps">TrailMaps</a>
+          </li>
+        </ul>
+      </nav>
       <h3>Maps Table</h3>
-
-      <button>View All Maps</button>
+      <p>This is the DB admin page for Maps Table</p>
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
@@ -18,6 +41,28 @@ export const Maps = () => {
           <input type="text" />
           <button>Add Map </button>
         </form>
+      </div>
+
+      <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
+        <label>List of all user submitted Maps</label>
+        <table>
+          <thead>
+            <tr>
+              <th>mapID</th>
+              <th>title</th>
+              <th>url</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mockMapData.map((row, i) => (
+              <tr>
+                <td>{row.mapID}</td>
+                <td>{row.title}</td>
+                <td>{row.url}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
