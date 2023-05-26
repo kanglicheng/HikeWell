@@ -1,20 +1,16 @@
 import React from "react";
 
 export const Users = () => {
-  const mockUserData = [
-    {
-      userID: 1,
-      username: "thehiker",
-      contact: "thehiker@test.com",
-      experienceLevel: 2.5,
-    },
-    {
-      userID: 2,
-      username: "darren",
-      contact: "darren@test.com",
-      experienceLevel: 3.0,
-    },
-  ];
+  const [users, setUsers] = React.useState([]);
+
+  React.useEffect(() => {
+    const getUsers = async () => {
+      const response = await fetch("https://hikewell-api.onrender.com/users");
+      const responseData = await response.json();
+      setUsers(responseData);
+    };
+    getUsers();
+  }, []);
 
   return (
     <div>
@@ -77,10 +73,10 @@ export const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {mockUserData.map((row, i) => (
+            {users.map((row, i) => (
               <tr>
                 <td>{row.userID}</td>
-                <td>{row.username}</td>
+                <td>{row.userName}</td>
                 <td>{row.contact}</td>
                 <td>{row.experienceLevel}</td>
               </tr>
