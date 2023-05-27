@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
@@ -11,6 +12,12 @@ export const Users = () => {
     };
     getUsers();
   }, []);
+
+  const handleDelete = (userID) => {
+    axios.post("https://hikewell-api.onrender.com/deleteUser", {
+      userID: userID,
+    });
+  };
 
   return (
     <div>
@@ -70,6 +77,7 @@ export const Users = () => {
               <th>username</th>
               <th>contact</th>
               <th>experienceLevel</th>
+              <th>Actions </th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +87,12 @@ export const Users = () => {
                 <td>{row.userName}</td>
                 <td>{row.contact}</td>
                 <td>{row.experienceLevel}</td>
+                <td>
+                  <button onClick={() => handleDelete(row.userID)}>
+                    Delete{" "}
+                  </button>
+                  <button> Edit </button>
+                </td>
               </tr>
             ))}
           </tbody>
