@@ -4,6 +4,12 @@ import axios from "axios";
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
 
+  const [newUser, setNewUser] = React.useState({});
+
+  const onChange = (key, e) => {
+    setNewUser({ ...newUser, [key]: e.target.value });
+  };
+
   React.useEffect(() => {
     const getUsers = async () => {
       const response = await fetch("https://hikewell-api.onrender.com/users");
@@ -16,6 +22,15 @@ export const Users = () => {
   const handleDelete = (userID) => {
     axios.post("https://hikewell-api.onrender.com/deleteUser", {
       userID: userID,
+    });
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    axios.post("localhost:3001/addUser", {
+      userName: newUser.userName,
+      contact: newUser.contact,
+      experienceLevel: Number(newUser.experienceLevel),
     });
   };
 
@@ -54,16 +69,30 @@ export const Users = () => {
         <form>
           <div>
             <label>username </label>
-            <input type="text" />
+            <input
+              onChange={(e) => onChange("userName", e)}
+              value={newUser.userName}
+              type="text"
+            />
             <label> contact </label>
-            <input type="text" />
+            <input
+              onChange={(e) => onChange("contact", e)}
+              value={newUser.contact}
+              type="text"
+            />
           </div>
           <div>
             <label>experience level </label>
-            <input type="number" />
+            <input
+              value={newUser.experienceLevel}
+              onChange={(e) => onChange("experienceLevel", e)}
+              type="number"
+            />
           </div>
           <div style={{ margin: "10px" }}>
-            <button>Add User </button>
+            <button type={"submit"} onClick={handleAdd}>
+              Add User{" "}
+            </button>
           </div>
         </form>
       </div>
@@ -82,7 +111,7 @@ export const Users = () => {
           </thead>
           <tbody>
             {users.map((row, i) => (
-              <tr>
+              <tr key={row.userID}>
                 <td>{row.userID}</td>
                 <td>{row.userName}</td>
                 <td>{row.contact}</td>
