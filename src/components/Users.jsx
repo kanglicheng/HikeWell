@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { baseUrl } from "./constants";
 
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
@@ -12,7 +13,7 @@ export const Users = () => {
 
   React.useEffect(() => {
     const getUsers = async () => {
-      const response = await fetch("https://hikewell-api.onrender.com/users");
+      const response = await fetch(`${baseUrl}/users`);
       const responseData = await response.json();
       setUsers(responseData);
     };
@@ -20,14 +21,14 @@ export const Users = () => {
   }, []);
 
   const handleDelete = (userID) => {
-    axios.post("https://hikewell-api.onrender.com/deleteUser", {
+    axios.post(`${baseUrl}/deleteUser`, {
       userID: userID,
     });
   };
 
   const handleAdd = (e) => {
     e.preventDefault();
-    axios.post("localhost:3001/addUser", {
+    axios.post(`${baseUrl}/addUser`, {
       userName: newUser.userName,
       contact: newUser.contact,
       experienceLevel: Number(newUser.experienceLevel),
