@@ -1,7 +1,19 @@
 import React from "react";
+import axios from "axios";
+import { baseUrl } from "./constants";
 
 export const Maps = () => {
   const mockMapData = [{ mapID: 1, title: "Rockies", url: "maps.google.com" }];
+  const [maps, setMaps] = React.useState([]);
+
+  React.useEffect(() => {
+    const getMaps = async () => {
+      const response = await fetch(`${baseUrl}/maps`);
+      const responseData = await response.json();
+      setMaps(responseData);
+    };
+    getMaps();
+  }, []);
 
   return (
     <div>
@@ -58,7 +70,7 @@ export const Maps = () => {
             </tr>
           </thead>
           <tbody>
-            {mockMapData.map((row, i) => (
+            {maps.map((row, i) => (
               <tr>
                 <td>{row.mapID}</td>
                 <td>{row.title}</td>
