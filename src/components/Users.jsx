@@ -21,10 +21,15 @@ export const Users = () => {
     getUsers();
   }, []);
 
-  const handleDelete = (userID) => {
-    axios.post(`${baseUrl}/deleteUser`, {
-      userID: userID,
-    });
+  const handleDelete = async (userID) => {
+    axios
+      .post(`${baseUrl}/deleteUser`, {
+        userID: userID,
+      })
+      .then((response) => {
+        getUsers();
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleAdd = async (e) => {
