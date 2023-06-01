@@ -11,12 +11,13 @@ export const Users = () => {
     setNewUser({ ...newUser, [key]: e.target.value });
   };
 
+  const getUsers = async () => {
+    const response = await fetch(`${baseUrl}/users`);
+    const responseData = await response.json();
+    setUsers(responseData);
+  };
+
   React.useEffect(() => {
-    const getUsers = async () => {
-      const response = await fetch(`${baseUrl}/users`);
-      const responseData = await response.json();
-      setUsers(responseData);
-    };
     getUsers();
   }, []);
 
@@ -26,13 +27,18 @@ export const Users = () => {
     });
   };
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
-    axios.post(`${baseUrl}/addUser`, {
-      userName: newUser.userName,
-      contact: newUser.contact,
-      experienceLevel: Number(newUser.experienceLevel),
-    });
+    axios
+      .post(`${baseUrl}/addUser`, {
+        userName: newUser.userName,
+        contact: newUser.contact,
+        experienceLevel: Number(newUser.experienceLevel),
+      })
+      .then((response) => {
+        getUsers();
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
