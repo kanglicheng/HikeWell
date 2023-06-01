@@ -46,6 +46,15 @@ export const Users = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    axios.post(`${baseUrl}/editUser`, {
+      userName: newUser.userName,
+      contact: newUser.contact,
+      experienceLevel: Number(newUser.experienceLevel),
+    });
+  };
+
   return (
     <div>
       <h2>HikeWell DB Admin</h2>

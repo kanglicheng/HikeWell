@@ -1,24 +1,47 @@
 import React from "react";
+import axios from "axios";
+import { baseUrl } from "./constants";
 
 export const Reviews = () => {
   const [showForm, setShowForm] = React.useState(false);
   const [selectedReview, setSelectedReview] = React.useState("");
+  const [reviews, setReviews] = React.useState([]);
+  const [newReview, setNewReview] = React.useState({});
 
   const handleEdit = (i) => {
     setShowForm(true);
-    setSelectedReview(mockReviewsData[i].description);
+    setSelectedReview(reviews[i].description);
   };
 
-  const mockReviewsData = [
-    {
-      reviewID: 1,
-      enjoyability: 5,
-      difficulty: 3,
-      description: "it was an average hike",
-      userID: 1,
-      trailID: 1,
-    },
-  ];
+  const onChange = (key, e) => {
+    setNewReview({ ...newReview, [key]: e.target.value });
+  };
+
+  React.useEffect(() => {
+    const getReviews = async () => {
+      const response = await fetch(`${baseUrl}/reviews`);
+      const responseData = await response.json();
+      setReviews(responseData);
+    };
+    getReviews();
+  }, []);
+
+  const handleDelete = (reviewID) => {
+    axios.post(`${baseUrl}/deleteReview`, {
+      reviewID: reviewID,
+    });
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    axios.post(`${baseUrl}/addReview`, {
+      enjoyability: Number(newReview.enjoyability),
+      difficulty: Number(newReview.difficulty),
+      description: newReview.description,
+      userID: Number(newReview.userID),
+      trailID: Number(newReview.trailID),
+    });
+  };
 
   return (
     <div>
@@ -55,13 +78,25 @@ export const Reviews = () => {
         <form>
           <div>
             <label>Enjoyability</label>
-            <input type="number" />
+            <input 
+              onChange={(e) => onChange("enjoyability", e)}
+              value={newReview.enjoyability}
+              type="number" 
+            />
             <label>Difficulty</label>
-            <input type="number" />
+            <input 
+              onChange={(e) => onChange("difficulty", e)}
+              value={newReview.difficulty}
+              type="number" 
+            />
           </div>
           <div>
             <label>Description</label>
-            <input type="text" />
+            <input 
+              onChange={(e) => onChange("description", e)}
+              value={newReview.description}
+              type="test" 
+            />
             <label>User</label>
             <select>
               <option>Steven</option>
@@ -75,7 +110,9 @@ export const Reviews = () => {
             </select>
           </div>
           <div style={{ margin: "10px" }}>
-            <button>Add Review </button>
+            <button type={"submit"} onClick={handleAdd}>
+              Add Review{" "}
+            </button>
           </div>
         </form>
       </div>
@@ -130,7 +167,7 @@ export const Reviews = () => {
             </tr>
           </thead>
           <tbody>
-            {mockReviewsData.map((row, i) => (
+            {reviews.map((row, i) => (
               <tr>
                 <td>{row.reviewID}</td>
                 <td>{row.enjoyability}</td>

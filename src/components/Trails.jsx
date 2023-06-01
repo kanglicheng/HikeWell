@@ -1,34 +1,69 @@
 import React from "react";
+import axios from "axios";
+import { baseUrl } from "./constants";
 
 export const Trails = () => {
   const [showForm, setShowForm] = React.useState(false);
-  const [selectedTrail, setSelectedTrail] = React.useState("");
+  const [trails, setTrails] = React.useState([]);
+  const [newTrail, setNewTrail] = React.useState({});
+  const [selectedTrail, setSelectedTrail] = React.useState({});
 
-  const handleEdit = (i) => {
-    setShowForm(true);
-    setSelectedTrail(mockTrailsData[i].name);
+  const onChangeNew = (key, e) => {
+    setNewTrail({ ...newTrail, [key]: e.target.value });
   };
 
-  const mockTrailsData = [
-    {
-      trailID: 1,
-      name: "Mt Wilson",
-      city: "Sierra Madre",
-      state: "CA",
-      lat: 34.1709,
-      long: -118.048,
-      distance: 14,
-    },
-    {
-      trailID: 2,
-      name: "Moose Mountain",
-      city: "Canaan",
-      state: "NH",
-      lat: 53.2,
-      long: -89.34,
-      distance: 30,
-    },
-  ];
+  const onChangeEdit = (key, e) => {
+    setSelectedTrail({ ...selectedTrail, [key]: e.target.value });
+  };
+
+  const getTrails = async () => {
+      const response = await fetch(`${baseUrl}/trails`);
+      const responseData = await response.json();
+      setTrails(responseData);
+};
+
+  React.useEffect(() => {
+    getTrails();
+  }, []);
+
+  const handleDelete = (trailID) => {
+    axios.post(`${baseUrl}/deleteTrail`, {
+      trailID: trailID,
+    });
+    getTrails();
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    axios.post(`${baseUrl}/addTrail`, {
+      name: newTrail.name,
+      city: newTrail.city,
+      state: newTrail.state,
+      lat: Number(newTrail.lat),
+      lng: Number(newTrail.lng),
+      distance: Number(newTrail.distance),
+    });
+    getTrails();
+  };
+
+  const editBox = (i) => {
+    setShowForm(true);
+    console.log("Edit box opened for " + trails[i].name)
+    setSelectedTrail(trails[i]);
+  };
+
+  const handleEdit = (trailID) => {
+    trailID.preventDefault();
+    axios.post(`${baseUrl}/editTrail`, {
+      name: selectedTrail.name,
+      city: selectedTrail.city,
+      state: selectedTrail.state,
+      lat: Number(selectedTrail.lat),
+      lng: Number(selectedTrail.lng),
+      distance: Number(selectedTrail.distance),
+    });
+    setShowForm(false);
+  };
 
   return (
     <div>
@@ -65,22 +100,48 @@ export const Trails = () => {
         <form>
           <div>
             <label>Name </label>
-            <input type="text" />
+            <input
+              value={newTrail.name}
+              onChange={(e) => onChangeNew("name", e)}
+              type="text"
+            />
             <label>City </label>
-            <input type="text" />
+            <input
+              onChange={(e) => onChangeNew("city", e)}
+              value={newTrail.city}
+              type="text"
+            />
           </div>
           <div>
             <label> State </label>
-            <input type="text" />
+            <input
+              onChange={(e) => onChangeNew("state", e)}
+              value={newTrail.state}
+              type="text"
+            />
             <label> Latitude </label>
-            <input type="number" />
+            <input
+              onChange={(e) => onChangeNew("lat", e)}
+              value={newTrail.lat}
+              type="number"
+            />
             <label> Longitude </label>
-            <input type="number" />
+            <input
+              onChange={(e) => onChangeNew("lng", e)}
+              value={newTrail.lng}
+              type="number"
+            />
             <label> Distance </label>
-            <input type="number" />
+            <input
+              onChange={(e) => onChangeNew("distance", e)}
+              value={newTrail.distance}
+              type="number"
+            />
           </div>
           <div style={{ margin: "10px" }}>
-            <button> Add Trail </button>
+            <button type={"submit"} onClick={handleAdd}> 
+              Add Trail{" "}
+            </button>
           </div>
         </form>
       </div>
@@ -96,21 +157,51 @@ export const Trails = () => {
           <form>
             <div>
               <label>Name</label>
-              <input type="text" placeholder={selectedTrail} />
+              <input
+                onChange={(e) => onChangeEdit("name", e)}
+                value={selectedTrail.name}
+                type="text"
+                placeholder={selectedTrail.name} 
+              />
               <label>City</label>
-              <input type="text" />
+              <input
+                onChange={(e) => onChangeEdit("city", e)}
+                value={selectedTrail.city}
+                type="text"
+                placeholder={selectedTrail.city} 
+              />
             </div>
             <div>
               <label>State</label>
-              <input type="text" />
+              <input
+                onChange={(e) => onChangeEdit("state", e)}
+                value={selectedTrail.state}
+                type="text"
+                placeholder={selectedTrail.state} 
+              />
               <label>Latitude</label>
-              <input type="number" />
+              <input
+                onChange={(e) => onChangeEdit("lat", e)}
+                value={selectedTrail.lat}
+                type="number"
+                placeholder={selectedTrail.lat} 
+              />
               <label>Longitude</label>
-              <input type="number" />
+              <input
+                onChange={(e) => onChangeEdit("lng", e)}
+                value={selectedTrail.lng}
+                type="number"
+                placeholder={selectedTrail.lng} 
+              />
               <label>Distance</label>
-              <input type="number" />
+              <input
+                onChange={(e) => onChangeEdit("distance", e)}
+                value={selectedTrail.distance}
+                type="number"
+                placeholder={selectedTrail.distance} 
+              />
             </div>
-            <button onClick={() => setShowForm(false)}>Update Trail</button>
+            <button type={"submit"} onClick={handleEdit}>Update Trail</button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
           </form>
         </div>
@@ -133,20 +224,20 @@ export const Trails = () => {
             </tr>
           </thead>
           <tbody>
-            {mockTrailsData.map((data, i) => (
+            {trails.map((data, i) => (
               <tr>
                 <td>{data.trailID}</td>
                 <td>{data.name}</td>
                 <td>{data.city}</td>
                 <td>{data.state}</td>
                 <td>{data.lat}</td>
-                <td>{data.long}</td>
+                <td>{data.lng}</td>
                 <td>{data.distance}</td>
                 <td>
-                  <button onClick={() => handleEdit(i)}>Edit</button>
+                  <button onClick={() => editBox(i)}>Edit</button>
                 </td>
                 <td>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(data.trailID)}>Delete</button>
                 </td>
               </tr>
             ))}
