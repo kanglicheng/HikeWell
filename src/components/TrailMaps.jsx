@@ -83,6 +83,7 @@ export const TrailMaps = () => {
             value={currentTrail}
             onChange={(e) => setCurrentTrail(e.target.value)}
           >
+            <option value="">None</option>
             {trailIDs.map((id) => (
               <option key={id}>{id}</option>
             ))}
@@ -92,6 +93,7 @@ export const TrailMaps = () => {
             value={currentMap}
             onChange={(e) => setCurrentMap(e.target.value)}
           >
+            <option value="">None</option>
             {mapIDs.map((id) => (
               <option key={id}>{id}</option>
             ))}
