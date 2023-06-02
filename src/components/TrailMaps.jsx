@@ -1,8 +1,13 @@
 import React from "react";
 import { baseUrl } from "./constants";
+import axios from "axios";
 
 export const TrailMaps = () => {
   const [trailMaps, setTrailMaps] = React.useState([]);
+  const [trailIDs, setTrailIDS] = React.useState([]);
+  const [mapIDs, setMapIDs] = React.useState([]);
+  const [currentTrail, setCurrentTrail] = React.useState(trailIDs[0]);
+  const [currentMap, setCurrentMap] = React.useState(mapIDs[0]);
 
   const getTrailMaps = async () => {
     const response = await fetch(`${baseUrl}/trailMaps`);
@@ -10,9 +15,37 @@ export const TrailMaps = () => {
     setTrailMaps(data);
   };
 
+  const getTrailIDs = async () => {
+    const response = await fetch(`${baseUrl}/trails`);
+    const responseData = await response.json();
+    const trailIDs = responseData.map((d) => d.trailID + " " + d.name);
+    setTrailIDS(trailIDs);
+  };
+
+  const getMapIDs = async () => {
+    const response = await fetch(`${baseUrl}/maps`);
+    const data = await response.json();
+    const mapIDs = data.map((d) => d.mapID + " " + d.title);
+    setMapIDs(mapIDs);
+  };
+
   React.useEffect(() => {
     getTrailMaps();
+    getTrailIDs();
+    getMapIDs();
   }, []);
+
+  const handleAddTrailMap = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${baseUrl}/addTrailMap`, {
+        trailID: Number(currentTrail.split(" ")[0]),
+        mapID: Number(currentMap.split(" ")[0]),
+      })
+      .then((response) => {
+        getTrailMaps();
+      });
+  };
 
   return (
     <div>
@@ -46,14 +79,24 @@ export const TrailMaps = () => {
         <label>Add TrailMap</label>
         <form>
           <label>Trail</label>
-          <select>
-            <option>Oregon Trail</option>
+          <select
+            value={currentTrail}
+            onChange={(e) => setCurrentTrail(e.target.value)}
+          >
+            {trailIDs.map((id) => (
+              <option key={id}>{id}</option>
+            ))}
           </select>
           <label>Map</label>
-          <select>
-            <option>Northwest US</option>
+          <select
+            value={currentMap}
+            onChange={(e) => setCurrentMap(e.target.value)}
+          >
+            {mapIDs.map((id) => (
+              <option key={id}>{id}</option>
+            ))}
           </select>
-          <button> Add TrailMap</button>
+          <button onClick={handleAddTrailMap}> Add TrailMap</button>
         </form>
       </div>
       <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
@@ -69,7 +112,7 @@ export const TrailMaps = () => {
           </thead>
           <tbody>
             {trailMaps.map((row, i) => (
-              <tr>
+              <tr key={row.trailID + row.mapID}>
                 <td>{row.trailID}</td>
                 <td>{row.mapID}</td>
                 <td>
