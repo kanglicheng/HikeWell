@@ -31,6 +31,7 @@ export const Reviews = () => {
         trailID: Number(selectedReview.trailID.split(" ")[0]),
       })
       .then((response) => getReviews());
+    setShowForm(false);
   };
 
   const onChange = (key, e) => {
@@ -68,7 +69,6 @@ export const Reviews = () => {
   }, []);
 
   const handleDelete = (reviewID) => {
-    console.log(reviewID);
     axios
       .post(`${baseUrl}/deleteReview`, {
         reviewID: reviewID,

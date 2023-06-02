@@ -59,12 +59,15 @@ export const Users = () => {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    console.log(selectedUser);
-    axios.put(`${baseUrl}/editUser`, {
-      userName: selectedUser.userName,
-      contact: selectedUser.contact,
-      experienceLevel: Number(newUser.experienceLevel),
-    });
+    axios
+      .put(`${baseUrl}/editUser`, {
+        userID: Number(selectedUser.userID),
+        userName: selectedUser.userName,
+        contact: selectedUser.contact,
+        experienceLevel: Number(selectedUser.experienceLevel),
+      })
+      .then((resp) => getUsers());
+    setShowForm(false);
   };
 
   return (
