@@ -203,6 +203,8 @@ export const Reviews = () => {
               <th>description</th>
               <th>userID</th>
               <th>trailID</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
