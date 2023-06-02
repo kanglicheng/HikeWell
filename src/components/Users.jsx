@@ -1,6 +1,10 @@
 import React from "react";
 import axios from "axios";
-import { baseUrl } from "./constants";
+import { baseUrl, skey, supabaseUrl } from "./constants";
+
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(supabaseUrl, skey);
 
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
@@ -18,9 +22,8 @@ export const Users = () => {
   };
 
   const getUsers = async () => {
-    const response = await fetch(`${baseUrl}/users`);
-    const responseData = await response.json();
-    setUsers(responseData);
+    let { data: Users, error } = await supabase.from("Users").select("*");
+    setUsers(Users);
   };
 
   React.useEffect(() => {
