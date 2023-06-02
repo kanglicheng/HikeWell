@@ -124,7 +124,7 @@ export const Users = () => {
           <thead>
             <tr>
               <th>userID</th>
-              <th>username</th>
+              <th>userName</th>
               <th>contact</th>
               <th>experienceLevel</th>
               <th>Actions </th>
