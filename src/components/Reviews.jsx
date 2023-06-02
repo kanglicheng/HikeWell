@@ -8,6 +8,12 @@ export const Reviews = () => {
   const [reviews, setReviews] = React.useState([]);
   const [newReview, setNewReview] = React.useState({});
 
+  const [selectedTrailID, setSelectedTrailID] = React.useState("");
+  const [selectedUserID, setSelectedUserID] = React.useState("");
+
+  const [userChoices, setUserChoices] = React.useState([]);
+  const [trailChoices, setTrailChoices] = React.useState([]);
+
   const handleEdit = (i) => {
     setShowForm(true);
     setSelectedReview(reviews[i].description);
@@ -17,30 +23,54 @@ export const Reviews = () => {
     setNewReview({ ...newReview, [key]: e.target.value });
   };
 
+  const getReviews = async () => {
+    const response = await fetch(`${baseUrl}/reviews`);
+    const responseData = await response.json();
+    setReviews(responseData);
+  };
+
+  const getUsers = async () => {
+    const response = await fetch(`${baseUrl}/users`);
+    const data = await response.json();
+    const choices = data.map((d) => d.userID + " " + d.userName);
+    setUserChoices(choices);
+  };
+
+  const getTrails = async () => {
+    const response = await fetch(`${baseUrl}/trails`);
+    const data = await response.json();
+    const choices = data.map((d) => d.trailID + " " + d.name);
+    setTrailChoices(choices);
+  };
+
   React.useEffect(() => {
-    const getReviews = async () => {
-      const response = await fetch(`${baseUrl}/reviews`);
-      const responseData = await response.json();
-      setReviews(responseData);
-    };
+    getUsers();
     getReviews();
+    getTrails();
   }, []);
 
   const handleDelete = (reviewID) => {
-    axios.post(`${baseUrl}/deleteReview`, {
-      reviewID: reviewID,
-    });
+    console.log(reviewID);
+    axios
+      .post(`${baseUrl}/deleteReview`, {
+        reviewID: reviewID,
+      })
+      .then((response) => {
+        getReviews();
+      });
   };
 
   const handleAdd = (e) => {
     e.preventDefault();
-    axios.post(`${baseUrl}/addReview`, {
-      enjoyability: Number(newReview.enjoyability),
-      difficulty: Number(newReview.difficulty),
-      description: newReview.description,
-      userID: Number(newReview.userID),
-      trailID: Number(newReview.trailID),
-    });
+    axios
+      .post(`${baseUrl}/addReview`, {
+        enjoyability: Number(newReview.enjoyability),
+        difficulty: Number(newReview.difficulty),
+        description: newReview.description,
+        userID: Number(selectedUserID.split(" ")[0]),
+        trailID: Number(selectedTrailID.split(" ")[0]),
+      })
+      .then((response) => getReviews());
   };
 
   return (
@@ -78,35 +108,44 @@ export const Reviews = () => {
         <form>
           <div>
             <label>Enjoyability</label>
-            <input 
+            <input
               onChange={(e) => onChange("enjoyability", e)}
               value={newReview.enjoyability}
-              type="number" 
+              type="number"
             />
             <label>Difficulty</label>
-            <input 
+            <input
               onChange={(e) => onChange("difficulty", e)}
               value={newReview.difficulty}
-              type="number" 
+              type="number"
             />
           </div>
           <div>
             <label>Description</label>
-            <input 
+            <input
               onChange={(e) => onChange("description", e)}
               value={newReview.description}
-              type="test" 
+              type="test"
             />
             <label>User</label>
-            <select>
-              <option>Steven</option>
-              <option>Darren</option>
-              <option>Andrew</option>
+            <select
+              onChange={(e) => setSelectedUserID(e.target.value)}
+              value={selectedUserID}
+            >
+              <option value="">None</option>
+              {userChoices.map((u) => (
+                <option key={u}>{u}</option>
+              ))}
             </select>
             <label>Trail</label>
-            <select>
-              <option>Mt Wilson</option>
-              <option>Moose Mountain</option>
+            <select
+              onChange={(e) => setSelectedTrailID(e.target.value)}
+              value={selectedTrailID}
+            >
+              <option value="">None</option>
+              {trailChoices.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
             </select>
           </div>
           <div style={{ margin: "10px" }}>
@@ -168,7 +207,7 @@ export const Reviews = () => {
           </thead>
           <tbody>
             {reviews.map((row, i) => (
-              <tr>
+              <tr key={row.reviewID}>
                 <td>{row.reviewID}</td>
                 <td>{row.enjoyability}</td>
                 <td>{row.difficulty}</td>
@@ -179,7 +218,9 @@ export const Reviews = () => {
                   <button onClick={() => handleEdit(i)}>Edit</button>
                 </td>
                 <td>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(row.reviewID)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
