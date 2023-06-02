@@ -23,6 +23,7 @@ export const Reviews = () => {
     e.preventDefault();
     axios
       .put(`${baseUrl}/editReview`, {
+        reviewID: Number(selectedReview.reviewID),
         enjoyability: Number(selectedReview.enjoyability),
         difficulty: Number(selectedReview.difficulty),
         description: selectedReview.description,
