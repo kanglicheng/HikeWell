@@ -3,7 +3,6 @@ import axios from "axios";
 import { baseUrl } from "./constants";
 
 export const Maps = () => {
-  const mockMapData = [{ mapID: 1, title: "Rockies", url: "maps.google.com" }];
   const [maps, setMaps] = React.useState([]);
 
   React.useEffect(() => {

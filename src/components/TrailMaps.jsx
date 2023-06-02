@@ -1,10 +1,18 @@
 import React from "react";
+import { baseUrl } from "./constants";
 
 export const TrailMaps = () => {
-  const mockTrailMapData = [
-    { trailID: 1, mapID: 1 },
-    { trailID: 2, mapID: 2 },
-  ];
+  const [trailMaps, setTrailMaps] = React.useState([]);
+
+  const getTrailMaps = async () => {
+    const response = await fetch(`${baseUrl}/trailMaps`);
+    const data = await response.json();
+    setTrailMaps(data);
+  };
+
+  React.useEffect(() => {
+    getTrailMaps();
+  }, []);
 
   return (
     <div>
@@ -60,7 +68,7 @@ export const TrailMaps = () => {
             </tr>
           </thead>
           <tbody>
-            {mockTrailMapData.map((row, i) => (
+            {trailMaps.map((row, i) => (
               <tr>
                 <td>{row.trailID}</td>
                 <td>{row.mapID}</td>
