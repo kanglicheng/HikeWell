@@ -16,11 +16,29 @@ export const Reviews = () => {
 
   const handleEdit = (i) => {
     setShowForm(true);
-    setSelectedReview(reviews[i].description);
+    setSelectedReview(reviews[i]);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    axios
+      .put(`${baseUrl}/editReview`, {
+        reviewID: Number(selectedReview.reviewID),
+        enjoyability: Number(selectedReview.enjoyability),
+        difficulty: Number(selectedReview.difficulty),
+        description: selectedReview.description,
+        userID: Number(selectedReview.userID.split(" ")[0]),
+        trailID: Number(selectedReview.trailID.split(" ")[0]),
+      })
+      .then((response) => getReviews());
   };
 
   const onChange = (key, e) => {
     setNewReview({ ...newReview, [key]: e.target.value });
+  };
+
+  const onChangeEdit = (key, e) => {
+    setSelectedReview({ ...selectedReview, [key]: e.target.value });
   };
 
   const getReviews = async () => {
@@ -167,26 +185,44 @@ export const Reviews = () => {
           <form>
             <div>
               <label>Enjoyability</label>
-              <input type="number" />
+              <input
+                onChange={(e) => onChangeEdit("enjoyability", e)}
+                value={selectedReview.enjoyability}
+                placeholder={selectedReview.enjoyability}
+                type="number"
+              />
               <label>Difficulty</label>
-              <input type="number" />
+              <input
+                onChange={(e) => onChangeEdit("difficulty", e)}
+                value={selectedReview.difficulty}
+                placeholder={selectedReview.difficulty}
+                type="number"
+              />
             </div>
             <div>
               <label>Description</label>
-              <input placeholder={selectedReview} type="text" />
+              <input
+                onChange={(e) => onChangeEdit("description", e)}
+                value={selectedReview.description}
+                placeholder={selectedReview.description}
+                type="text"
+              />
               <label>User</label>
-              <select>
-                <option>Steven</option>
-                <option>Darren</option>
-                <option>Andrew</option>
+              <select onChange={(e) => onChangeEdit("userID", e)}>
+                <option value="">None</option>
+                {userChoices.map((u) => (
+                  <option key={u}>{u}</option>
+                ))}
               </select>
               <label>Trail</label>
-              <select>
-                <option>Mt Wilson</option>
-                <option>Moose Mountain</option>
+              <select onChange={(e) => onChangeEdit("trailID", e)}>
+                <option value="">None</option>
+                {trailChoices.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
               </select>
             </div>
-            <button onClick={() => setShowForm(false)}>Update Review</button>
+            <button onClick={handleUpdate}>Update Review</button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
           </form>
         </div>

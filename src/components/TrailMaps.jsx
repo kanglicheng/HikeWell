@@ -47,6 +47,14 @@ export const TrailMaps = () => {
       });
   };
 
+  const handleDelete = (trailID) => {
+    axios
+      .post(`${baseUrl}/deleteTrailMap`, {
+        trailID: Number(trailID),
+      })
+      .then((response) => getTrailMaps());
+  };
+
   return (
     <div>
       <h2>HikeWell DB Admin</h2>
@@ -121,7 +129,9 @@ export const TrailMaps = () => {
                   <button>Edit</button>
                 </td>
                 <td>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(row.trailID)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
