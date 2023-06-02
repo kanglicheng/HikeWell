@@ -78,24 +78,24 @@ export const Reviews = () => {
         <form>
           <div>
             <label>Enjoyability</label>
-            <input 
+            <input
               onChange={(e) => onChange("enjoyability", e)}
               value={newReview.enjoyability}
-              type="number" 
+              type="number"
             />
             <label>Difficulty</label>
-            <input 
+            <input
               onChange={(e) => onChange("difficulty", e)}
               value={newReview.difficulty}
-              type="number" 
+              type="number"
             />
           </div>
           <div>
             <label>Description</label>
-            <input 
+            <input
               onChange={(e) => onChange("description", e)}
               value={newReview.description}
-              type="test" 
+              type="test"
             />
             <label>User</label>
             <select>
@@ -168,7 +168,7 @@ export const Reviews = () => {
           </thead>
           <tbody>
             {reviews.map((row, i) => (
-              <tr>
+              <tr key={row.reviewID}>
                 <td>{row.reviewID}</td>
                 <td>{row.enjoyability}</td>
                 <td>{row.difficulty}</td>

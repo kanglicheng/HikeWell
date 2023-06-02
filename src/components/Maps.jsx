@@ -88,7 +88,7 @@ export const Maps = () => {
           </thead>
           <tbody>
             {maps.map((row, i) => (
-              <tr>
+              <tr key={row.mapID}>
                 <td>{row.mapID}</td>
                 <td>{row.title}</td>
                 <td>{row.url}</td>

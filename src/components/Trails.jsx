@@ -111,14 +111,14 @@ export const Trails = () => {
           <div>
             <label>Name </label>
             <input
-              value={newTrail.name}
+              value={newTrail.name || ""}
               onChange={(e) => onChangeNew("name", e)}
               type="text"
             />
             <label>City </label>
             <input
               onChange={(e) => onChangeNew("city", e)}
-              value={newTrail.city}
+              value={newTrail.city || ""}
               type="text"
             />
           </div>
@@ -126,25 +126,25 @@ export const Trails = () => {
             <label> State </label>
             <input
               onChange={(e) => onChangeNew("state", e)}
-              value={newTrail.state}
+              value={newTrail.state || ""}
               type="text"
             />
             <label> Latitude </label>
             <input
               onChange={(e) => onChangeNew("lat", e)}
-              value={newTrail.lat}
+              value={newTrail.lat || ""}
               type="number"
             />
             <label> Longitude </label>
             <input
               onChange={(e) => onChangeNew("lng", e)}
-              value={newTrail.lng}
+              value={newTrail.lng || ""}
               type="number"
             />
             <label> Distance </label>
             <input
               onChange={(e) => onChangeNew("distance", e)}
-              value={newTrail.distance}
+              value={newTrail.distance || ""}
               type="number"
             />
           </div>
