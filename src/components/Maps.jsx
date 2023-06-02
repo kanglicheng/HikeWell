@@ -4,15 +4,33 @@ import { baseUrl } from "./constants";
 
 export const Maps = () => {
   const [maps, setMaps] = React.useState([]);
+  const [newMap, setNewMap] = React.useState({});
+
+  const onChange = (key, e) => {
+    setNewMap({ ...newMap, [key]: e.target.value });
+  };
+
+  const getMaps = async () => {
+    const response = await fetch(`${baseUrl}/maps`);
+    const responseData = await response.json();
+    setMaps(responseData);
+  };
 
   React.useEffect(() => {
-    const getMaps = async () => {
-      const response = await fetch(`${baseUrl}/maps`);
-      const responseData = await response.json();
-      setMaps(responseData);
-    };
     getMaps();
   }, []);
+
+  const handleAddMap = (e) => {
+    e.preventDefault();
+    axios
+      .post(`${baseUrl}/addMap`, {
+        title: newMap.title,
+        url: newMap.url,
+      })
+      .then((response) => {
+        getMaps();
+      });
+  };
 
   return (
     <div>
@@ -48,10 +66,10 @@ export const Maps = () => {
         </label>
         <form>
           <label>Title</label>
-          <input type="text" />
+          <input type="text" onChange={(e) => onChange("title", e)} />
           <label>URL</label>
-          <input type="text" />
-          <button>Add Map </button>
+          <input type="text" onChange={(e) => onChange("url", e)} />
+          <button onClick={handleAddMap}>Add Map </button>
         </form>
       </div>
 
