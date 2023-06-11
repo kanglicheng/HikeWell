@@ -47,6 +47,14 @@ export const TrailMaps = () => {
       });
   };
 
+  const handleDelete = (trailID) => {
+    axios
+      .post(`${baseUrl}/deleteTrailMap`, {
+        trailID: Number(trailID),
+      })
+      .then((response) => getTrailMaps());
+  };
+
   return (
     <div>
       <h2>HikeWell DB Admin</h2>
@@ -83,6 +91,7 @@ export const TrailMaps = () => {
             value={currentTrail}
             onChange={(e) => setCurrentTrail(e.target.value)}
           >
+            <option value="">None</option>
             {trailIDs.map((id) => (
               <option key={id}>{id}</option>
             ))}
@@ -92,6 +101,7 @@ export const TrailMaps = () => {
             value={currentMap}
             onChange={(e) => setCurrentMap(e.target.value)}
           >
+            <option value="">None</option>
             {mapIDs.map((id) => (
               <option key={id}>{id}</option>
             ))}
@@ -119,7 +129,9 @@ export const TrailMaps = () => {
                   <button>Edit</button>
                 </td>
                 <td>
-                  <button>Delete</button>
+                  <button onClick={() => handleDelete(row.trailID)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

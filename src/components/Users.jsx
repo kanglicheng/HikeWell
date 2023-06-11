@@ -4,11 +4,17 @@ import { baseUrl } from "./constants";
 
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
+  const [showForm, setShowForm] = React.useState(false);
+  const [selectedUser, setSelectedUser] = React.useState({});
 
   const [newUser, setNewUser] = React.useState({});
 
   const onChange = (key, e) => {
     setNewUser({ ...newUser, [key]: e.target.value });
+  };
+
+  const onChangeEdit = (key, e) => {
+    setSelectedUser({ ...selectedUser, [key]: e.target.value });
   };
 
   const getUsers = async () => {
@@ -46,13 +52,22 @@ export const Users = () => {
       .catch((err) => console.log(err));
   };
 
+  const editUser = (i) => {
+    setShowForm(true);
+    setSelectedUser(users[i]);
+  };
+
   const handleEdit = (e) => {
     e.preventDefault();
-    axios.post(`${baseUrl}/editUser`, {
-      userName: newUser.userName,
-      contact: newUser.contact,
-      experienceLevel: Number(newUser.experienceLevel),
-    });
+    axios
+      .put(`${baseUrl}/editUser`, {
+        userID: Number(selectedUser.userID),
+        userName: selectedUser.userName,
+        contact: selectedUser.contact,
+        experienceLevel: Number(selectedUser.experienceLevel),
+      })
+      .then((resp) => getUsers());
+    setShowForm(false);
   };
 
   return (
@@ -82,6 +97,45 @@ export const Users = () => {
       </nav>
       <h3>Users Table</h3>
       <p>This is the DB admin page for Users table</p>
+
+      {showForm && (
+        <div
+          style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}
+        >
+          <label>
+            <b>Edit</b>
+          </label>
+          <form>
+            <div>
+              <label>username </label>
+              <input
+                onChange={(e) => onChangeEdit("userName", e)}
+                value={selectedUser.userName}
+                type="text"
+              />
+              <label> contact </label>
+              <input
+                onChange={(e) => onChangeEdit("contact", e)}
+                value={selectedUser.contact}
+                type="text"
+              />
+            </div>
+            <div>
+              <label>experience level </label>
+              <input
+                value={selectedUser.experienceLevel}
+                onChange={(e) => onChangeEdit("experienceLevel", e)}
+                type="number"
+              />
+            </div>
+            <div style={{ margin: "10px" }}>
+              <button type={"submit"} onClick={handleEdit}>
+                Edit User{" "}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
@@ -124,7 +178,7 @@ export const Users = () => {
           <thead>
             <tr>
               <th>userID</th>
-              <th>username</th>
+              <th>userName</th>
               <th>contact</th>
               <th>experienceLevel</th>
               <th>Actions </th>
@@ -141,7 +195,7 @@ export const Users = () => {
                   <button onClick={() => handleDelete(row.userID)}>
                     Delete{" "}
                   </button>
-                  <button> Edit </button>
+                  <button onClick={() => editUser(i)}> Edit </button>
                 </td>
               </tr>
             ))}

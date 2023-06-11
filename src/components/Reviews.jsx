@@ -10,7 +10,33 @@ export const Reviews = () => {
   const [usernames, setUsernames] = React.useState([]);
   const [trailNames, setTrailNames] = React.useState([]);
 
-  const onChangeNew = (key, e) => {
+  const [selectedTrailID, setSelectedTrailID] = React.useState("");
+  const [selectedUserID, setSelectedUserID] = React.useState("");
+
+  const [userChoices, setUserChoices] = React.useState([]);
+  const [trailChoices, setTrailChoices] = React.useState([]);
+
+  const handleEdit = (i) => {
+    setShowForm(true);
+    setSelectedReview(reviews[i]);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    axios
+      .put(`${baseUrl}/editReview`, {
+        reviewID: Number(selectedReview.reviewID),
+        enjoyability: Number(selectedReview.enjoyability),
+        difficulty: Number(selectedReview.difficulty),
+        description: selectedReview.description,
+        userID: Number(selectedReview.userID.split(" ")[0]),
+        trailID: Number(selectedReview.trailID.split(" ")[0]),
+      })
+      .then((response) => getReviews());
+    setShowForm(false);
+  };
+
+  const onChange = (key, e) => {
     setNewReview({ ...newReview, [key]: e.target.value });
   };
 
@@ -19,27 +45,29 @@ export const Reviews = () => {
   };
 
   const getReviews = async () => {
-      const response = await fetch(`${baseUrl}/reviews`);
-      const responseData = await response.json();
-      setReviews(responseData);
-    };
+    const response = await fetch(`${baseUrl}/reviews`);
+    const responseData = await response.json();
+    setReviews(responseData);
+  };
 
-  const getUsernames = async () => {
-      const response = await fetch(`${baseUrl}/usernameDropdown`);
-      const responseData = await response.json();
-      setUsernames(responseData);
-    };
+  const getUsers = async () => {
+    const response = await fetch(`${baseUrl}/users`);
+    const data = await response.json();
+    const choices = data.map((d) => d.userID + " " + d.userName);
+    setUserChoices(choices);
+  };
 
-  const getTrailNames = async () => {
-      const response = await fetch(`${baseUrl}/trailDropdown`);
-      const responseData = await response.json();
-      setTrailNames(responseData);
-    };
+  const getTrails = async () => {
+    const response = await fetch(`${baseUrl}/trails`);
+    const data = await response.json();
+    const choices = data.map((d) => d.trailID + " " + d.name);
+    setTrailChoices(choices);
+  };
 
   React.useEffect(() => {
+    getUsers();
     getReviews();
-    getUsernames();
-    getTrailNames();
+    getTrails();
   }, []);
 
   const handleDelete = (reviewID) => {
@@ -47,7 +75,7 @@ export const Reviews = () => {
       .post(`${baseUrl}/deleteReview`, {
         reviewID: reviewID,
       })
-      .then((res) => {
+      .then((response) => {
         getReviews();
       });
   };
@@ -59,34 +87,10 @@ export const Reviews = () => {
         enjoyability: Number(newReview.enjoyability),
         difficulty: Number(newReview.difficulty),
         description: newReview.description,
-        userID: Number(newReview.userID),
-        trailID: Number(newReview.trailID),
+        userID: Number(selectedUserID.split(" ")[0]),
+        trailID: Number(selectedTrailID.split(" ")[0]),
       })
-      .then((res) => {
-        getReviews();
-      });
-  };
-
-  const editBox = (i) => {
-    setShowForm(true);
-    setSelectedReview(reviews[i]);
-  };
-
-  const handleEdit = (e) => {
-    e.preventDefault();
-    axios
-      .put(`${baseUrl}/editReview`, {
-        reviewID: Number(selectedReview.reviewID),
-        enjoyability: Number(selectedReview.enjoyability),
-        difficulty: Number(selectedReview.difficulty),
-        description: selectedReview.description,
-        userID: Number(selectedReview.userID),
-        trailID: Number(selectedReview.trailID),
-      })
-      .then((res) => {
-        getReviews();
-      });
-    setShowForm(false);
+      .then((response) => getReviews());
   };
 
   return (
@@ -144,19 +148,23 @@ export const Reviews = () => {
               type="test"
             />
             <label>User</label>
-            <select onChange={(e) => onChangeNew("userID", e)}>
-              {usernames.map((row, i) => (
-                <option value={newReview.userID} label={row.userName}>
-                  {row.userID}
-                </option>
+            <select
+              onChange={(e) => setSelectedUserID(e.target.value)}
+              value={selectedUserID}
+            >
+              <option value="">None</option>
+              {userChoices.map((u) => (
+                <option key={u}>{u}</option>
               ))}
             </select>
             <label>Trail</label>
-            <select onChange={(e) => onChangeNew("trailID", e)}>
-              {trailNames.map((row, i) => (
-                <option value={newReview.trailID} label={row.name}>
-                  {row.trailID}
-                </option>
+            <select
+              onChange={(e) => setSelectedTrailID(e.target.value)}
+              value={selectedTrailID}
+            >
+              <option value="">None</option>
+              {trailChoices.map((c) => (
+                <option key={c}>{c}</option>
               ))}
             </select>
           </div>
@@ -182,15 +190,15 @@ export const Reviews = () => {
               <input
                 onChange={(e) => onChangeEdit("enjoyability", e)}
                 value={selectedReview.enjoyability}
-                type="number"
                 placeholder={selectedReview.enjoyability}
+                type="number"
               />
               <label>Difficulty</label>
               <input
                 onChange={(e) => onChangeEdit("difficulty", e)}
                 value={selectedReview.difficulty}
-                type="number"
                 placeholder={selectedReview.difficulty}
+                type="number"
               />
             </div>
             <div>
@@ -198,27 +206,25 @@ export const Reviews = () => {
               <input
                 onChange={(e) => onChangeEdit("description", e)}
                 value={selectedReview.description}
-                type="text"
                 placeholder={selectedReview.description}
+                type="text"
               />
               <label>User</label>
               <select onChange={(e) => onChangeEdit("userID", e)}>
-                {usernames.map((row, i) => (
-                  <option value={selectedReview.userID} label={row.userName}>
-                    {row.userID}
-                  </option>
+                <option value="">None</option>
+                {userChoices.map((u) => (
+                  <option key={u}>{u}</option>
                 ))}
               </select>
               <label>Trail</label>
               <select onChange={(e) => onChangeEdit("trailID", e)}>
-                {trailNames.map((row, i) => (
-                  <option value={selectedReview.trailID} label={row.name}>
-                    {row.trailID}
-                  </option>
+                <option value="">None</option>
+                {trailChoices.map((c) => (
+                  <option key={c}>{c}</option>
                 ))}
               </select>
             </div>
-            <button type={"submit"} onClick={handleEdit}>Update Review</button>
+            <button onClick={handleUpdate}>Update Review</button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
           </form>
         </div>
@@ -235,6 +241,8 @@ export const Reviews = () => {
               <th>description</th>
               <th>userID</th>
               <th>trailID</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -250,7 +258,9 @@ export const Reviews = () => {
                   <button onClick={() => editBox(i)}>Edit</button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(row.reviewID)}>Delete</button>
+                  <button onClick={() => handleDelete(row.reviewID)}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

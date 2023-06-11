@@ -3,11 +3,17 @@ import axios from "axios";
 import { baseUrl } from "./constants";
 
 export const Maps = () => {
+  const [showForm, setShowForm] = React.useState(false);
   const [maps, setMaps] = React.useState([]);
   const [newMap, setNewMap] = React.useState({});
+  const [selectedMap, setSelectedMap] = React.useState({});
 
-  const onChange = (key, e) => {
+  const onChangeNew = (key, e) => {
     setNewMap({ ...newMap, [key]: e.target.value });
+  };
+
+  const onChangeEdit = (key, e) => {
+    setSelectedMap({ ...selectedMap, [key]: e.target.value });
   };
 
   const getMaps = async () => {
@@ -20,16 +26,45 @@ export const Maps = () => {
     getMaps();
   }, []);
 
-  const handleAddMap = (e) => {
+  const handleAdd = (e) => {
     e.preventDefault();
     axios
       .post(`${baseUrl}/addMap`, {
         title: newMap.title,
         url: newMap.url,
       })
-      .then((response) => {
+      .then((res) => {
         getMaps();
       });
+  };
+
+  const handleDelete = (mapID) => {
+    axios
+      .post(`${baseUrl}/deleteMap`, {
+        mapID: mapID,
+      })
+      .then((res) => {
+        getMaps();
+      });
+  };
+
+  const editBox = (i) => {
+    setShowForm(true);
+    setSelectedMap(maps[i]);
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    axios
+      .put(`${baseUrl}/editMap`, {
+        mapID: Number(selectedMap.mapID),
+        title: selectedMap.title,
+        url: selectedMap.url,
+      })
+      .then((res) => {
+        getMaps();
+      });
+    setShowForm(false);
   };
 
   return (
@@ -66,12 +101,45 @@ export const Maps = () => {
         </label>
         <form>
           <label>Title</label>
-          <input type="text" onChange={(e) => onChange("title", e)} />
+          <input type="text" onChange={(e) => onChangeNew("title", e)} />
           <label>URL</label>
-          <input type="text" onChange={(e) => onChange("url", e)} />
-          <button onClick={handleAddMap}>Add Map </button>
+          <input type="text" onChange={(e) => onChangeNew("url", e)} />
+          <button onClick={handleAdd}>Add Map </button>
         </form>
       </div>
+
+      {showForm && (
+        <div
+          style={{
+            padding: "5px",
+            margin: "20px",
+            border: "1px solid magenta",
+          }}
+        >
+          <form>
+            <div>
+              <label>Title</label>
+              <input
+                onChange={(e) => onChangeEdit("title", e)}
+                value={selectedMap.title}
+                type="text"
+                placeholder={selectedMap.title}
+              />
+              <label>url</label>
+              <input
+                onChange={(e) => onChangeEdit("url", e)}
+                value={selectedMap.url}
+                type="text"
+                placeholder={selectedMap.url}
+              />
+            </div>
+            <button type={"submit"} onClick={handleEdit}>
+              Update Map
+            </button>
+            <button onClick={() => setShowForm(false)}>Cancel</button>
+          </form>
+        </div>
+      )}
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
         <label>List of all user submitted Maps</label>
@@ -84,6 +152,8 @@ export const Maps = () => {
               <th>mapID</th>
               <th>title</th>
               <th>url</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -92,6 +162,12 @@ export const Maps = () => {
                 <td>{row.mapID}</td>
                 <td>{row.title}</td>
                 <td>{row.url}</td>
+                <td>
+                  <button onClick={() => editBox(i)}>Edit</button>
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(row.mapID)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
