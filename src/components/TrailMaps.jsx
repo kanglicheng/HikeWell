@@ -3,11 +3,36 @@ import { baseUrl } from "./constants";
 import axios from "axios";
 
 export const TrailMaps = () => {
+  const [showForm, setShowForm] = React.useState(false);
   const [trailMaps, setTrailMaps] = React.useState([]);
   const [trailIDs, setTrailIDS] = React.useState([]);
   const [mapIDs, setMapIDs] = React.useState([]);
+  const [selectedTrailMap, setSelectedTrailMap] = React.useState({});
+
   const [currentTrail, setCurrentTrail] = React.useState(trailIDs[0]);
   const [currentMap, setCurrentMap] = React.useState(mapIDs[0]);
+
+  const handleEdit = (i) => {
+    setShowForm(true);
+    setSelectedTrailMap(trailMaps[i]);
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    axios
+      .put(`${baseUrl}/editTrailMap`, {
+        newTrailID: Number(selectedTrailMap.newTrailID.split(" ")[0]),
+        newMapID: Number(selectedTrailMap.newMapID.split(" ")[0]),
+        trailID: Number(selectedTrailMap.trailID.split(" ")[0]),
+        mapID: Number(selectedTrailMap.mapID.split(" ")[0]),
+      })
+      .then((response) => getTrailMaps());
+    setShowForm(false);
+  };
+
+  const onChangeEdit = (key, e) => {
+    setSelectedTrailMap({ ...selectedTrailMap, [key]: e.target.value });
+  };
 
   const getTrailMaps = async () => {
     const response = await fetch(`${baseUrl}/trailMaps`);
@@ -109,6 +134,39 @@ export const TrailMaps = () => {
           <button onClick={handleAddTrailMap}> Add TrailMap</button>
         </form>
       </div>
+
+      {showForm && (
+        <div
+          style={{
+            padding: "5px",
+            margin: "20px",
+            border: "1px solid magenta",
+          }}
+        >
+          <form>
+            <div>
+              <label>Trail</label>
+              <select 
+                onChange={(e) => onChangeEdit("newTrailID", e)}>
+                <option value="">None</option>
+                {trailIDs.map((u) => (
+                  <option key={u}>{u}</option>
+                ))}
+              </select>
+              <label>Map</label>
+              <select onChange={(e) => onChangeEdit("newMapID", e)}>
+                <option value="">None</option>
+                {mapIDs.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+            <button onClick={handleUpdate}>Update Review</button>
+            <button onClick={() => setShowForm(false)}>Cancel</button>
+          </form>
+        </div>
+      )}
+
       <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
         <label>All TrailMap records</label>
         <table>
@@ -126,7 +184,7 @@ export const TrailMaps = () => {
                 <td>{row.trailID}</td>
                 <td>{row.mapID}</td>
                 <td>
-                  <button>Edit</button>
+                  <button onClick={() => handleEdit(i)}>Edit</button>
                 </td>
                 <td>
                   <button onClick={() => handleDelete(row.trailID)}>

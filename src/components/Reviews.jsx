@@ -7,8 +7,6 @@ export const Reviews = () => {
   const [reviews, setReviews] = React.useState([]);
   const [newReview, setNewReview] = React.useState({});
   const [selectedReview, setSelectedReview] = React.useState({});
-  const [usernames, setUsernames] = React.useState([]);
-  const [trailNames, setTrailNames] = React.useState([]);
 
   const [selectedTrailID, setSelectedTrailID] = React.useState("");
   const [selectedUserID, setSelectedUserID] = React.useState("");
@@ -129,13 +127,13 @@ export const Reviews = () => {
           <div>
             <label>Enjoyability</label>
             <input 
-              onChange={(e) => onChangeNew("enjoyability", e)}
+              onChange={(e) => onChange("enjoyability", e)}
               value={newReview.enjoyability}
               type="number"
             />
             <label>Difficulty</label>
             <input 
-              onChange={(e) => onChangeNew("difficulty", e)}
+              onChange={(e) => onChange("difficulty", e)}
               value={newReview.difficulty}
               type="number"
             />
@@ -143,7 +141,7 @@ export const Reviews = () => {
           <div>
             <label>Description</label>
             <input 
-              onChange={(e) => onChangeNew("description", e)}
+              onChange={(e) => onChange("description", e)}
               value={newReview.description}
               type="test"
             />
@@ -210,7 +208,8 @@ export const Reviews = () => {
                 type="text"
               />
               <label>User</label>
-              <select onChange={(e) => onChangeEdit("userID", e)}>
+              <select 
+                onChange={(e) => onChangeEdit("userID", e)}>
                 <option value="">None</option>
                 {userChoices.map((u) => (
                   <option key={u}>{u}</option>
@@ -255,7 +254,7 @@ export const Reviews = () => {
                 <td>{row.userID}</td>
                 <td>{row.trailID}</td>
                 <td>
-                  <button onClick={() => editBox(i)}>Edit</button>
+                  <button onClick={() => handleEdit(i)}>Edit</button>
                 </td>
                 <td>
                   <button onClick={() => handleDelete(row.reviewID)}>
