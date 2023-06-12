@@ -143,6 +143,9 @@ export const TrailMaps = () => {
             border: "1px solid magenta",
           }}
         >
+          <label>
+            <b>Edit TrailMap</b>
+          </label>
           <form>
             <div>
               <label>Trail</label>

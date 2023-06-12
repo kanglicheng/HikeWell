@@ -116,6 +116,9 @@ export const Maps = () => {
             border: "1px solid magenta",
           }}
         >
+          <label>
+            <b>Edit Map</b>
+          </label>
           <form>
             <div>
               <label>Title</label>

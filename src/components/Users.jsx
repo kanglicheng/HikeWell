@@ -98,45 +98,6 @@ export const Users = () => {
       <h3>Users Table</h3>
       <p>This is the DB admin page for Users table</p>
 
-      {showForm && (
-        <div
-          style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}
-        >
-          <label>
-            <b>Edit</b>
-          </label>
-          <form>
-            <div>
-              <label>username </label>
-              <input
-                onChange={(e) => onChangeEdit("userName", e)}
-                value={selectedUser.userName}
-                type="text"
-              />
-              <label> contact </label>
-              <input
-                onChange={(e) => onChangeEdit("contact", e)}
-                value={selectedUser.contact}
-                type="text"
-              />
-            </div>
-            <div>
-              <label>experience level </label>
-              <input
-                value={selectedUser.experienceLevel}
-                onChange={(e) => onChangeEdit("experienceLevel", e)}
-                type="number"
-              />
-            </div>
-            <div style={{ margin: "10px" }}>
-              <button type={"submit"} onClick={handleEdit}>
-                Edit User{" "}
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
           <b>Add a User</b>
@@ -172,6 +133,46 @@ export const Users = () => {
         </form>
       </div>
 
+      {showForm && (
+        <div
+          style={{ padding: "5px", margin: "20px", border: "1px solid magenta" }}
+        >
+          <label>
+            <b>Edit User</b>
+          </label>
+          <form>
+            <div>
+              <label>username </label>
+              <input
+                onChange={(e) => onChangeEdit("userName", e)}
+                value={selectedUser.userName}
+                type="text"
+              />
+              <label> contact </label>
+              <input
+                onChange={(e) => onChangeEdit("contact", e)}
+                value={selectedUser.contact}
+                type="text"
+              />
+            </div>
+            <div>
+              <label>experience level </label>
+              <input
+                value={selectedUser.experienceLevel}
+                onChange={(e) => onChangeEdit("experienceLevel", e)}
+                type="number"
+              />
+            </div>
+            <div style={{ margin: "10px" }}>
+              <button type={"submit"} onClick={handleEdit}>
+                Edit User{" "}
+              </button>
+              <button onClick={() => setShowForm(false)}>Cancel</button>
+            </div>
+          </form>
+        </div>
+      )}
+
       <div style={{ padding: "5px", margin: "20px", border: "1px solid grey" }}>
         <label>List of all registered Users</label>
         <table>
@@ -181,7 +182,8 @@ export const Users = () => {
               <th>userName</th>
               <th>contact</th>
               <th>experienceLevel</th>
-              <th>Actions </th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -192,10 +194,10 @@ export const Users = () => {
                 <td>{row.contact}</td>
                 <td>{row.experienceLevel}</td>
                 <td>
-                  <button onClick={() => handleDelete(row.userID)}>
-                    Delete{" "}
-                  </button>
                   <button onClick={() => editUser(i)}> Edit </button>
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(row.userID)}> Delete{" "} </button>
                 </td>
               </tr>
             ))}

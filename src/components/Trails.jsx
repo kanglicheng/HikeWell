@@ -164,6 +164,9 @@ export const Trails = () => {
             border: "1px solid magenta",
           }}
         >
+          <label>
+            <b>Edit Trail</b>
+          </label>
           <form>
             <div>
               <label>Name</label>

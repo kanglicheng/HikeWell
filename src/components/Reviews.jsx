@@ -182,6 +182,9 @@ export const Reviews = () => {
             border: "1px solid magenta",
           }}
         >
+          <label>
+            <b>Edit Review</b>
+          </label>
           <form>
             <div>
               <label>Enjoyability</label>
