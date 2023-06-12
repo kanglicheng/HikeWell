@@ -10,10 +10,18 @@ export const Users = () => {
   const [newUser, setNewUser] = React.useState({});
 
   const onChange = (key, e) => {
+    if(newUser.experienceLevel > 10) newUser.experienceLevel = 10;
+    if(newUser.experienceLevel < 1) newUser.experienceLevel = 1;
+    newUser.experienceLevel = Math.round(newUser.experienceLevel);
+
     setNewUser({ ...newUser, [key]: e.target.value });
   };
 
   const onChangeEdit = (key, e) => {
+    if(selectedUser.experienceLevel > 10) selectedUser.experienceLevel = 10;
+    if(selectedUser.experienceLevel < 1) selectedUser.experienceLevel = 1;
+    selectedUser.experienceLevel = Math.round(selectedUser.experienceLevel);
+
     setSelectedUser({ ...selectedUser, [key]: e.target.value });
   };
 
@@ -40,6 +48,11 @@ export const Users = () => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
+    if(newUser.experienceLevel > 10) newUser.experienceLevel = 10;
+    if(newUser.experienceLevel < 1) newUser.experienceLevel = 1;
+    newUser.experienceLevel = Math.round(newUser.experienceLevel);
+
     axios
       .post(`${baseUrl}/addUser`, {
         userName: newUser.userName,
@@ -59,6 +72,11 @@ export const Users = () => {
 
   const handleEdit = (e) => {
     e.preventDefault();
+
+    if(selectedUser.experienceLevel > 10) selectedUser.experienceLevel = 10;
+    if(selectedUser.experienceLevel < 1) selectedUser.experienceLevel = 1;
+    selectedUser.experienceLevel = Math.round(selectedUser.experienceLevel);
+
     axios
       .put(`${baseUrl}/editUser`, {
         userID: Number(selectedUser.userID),
@@ -100,17 +118,17 @@ export const Users = () => {
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
-          <b>Add a User</b>
+          <b>Add User</b>
         </label>
         <form>
           <div>
-            <label>username </label>
+            <label> Username </label>
             <input
               onChange={(e) => onChange("userName", e)}
               value={newUser.userName}
               type="text"
             />
-            <label> contact </label>
+            <label> Contact </label>
             <input
               onChange={(e) => onChange("contact", e)}
               value={newUser.contact}
@@ -118,11 +136,13 @@ export const Users = () => {
             />
           </div>
           <div>
-            <label>experience level </label>
+            <label> Experience Level (1-10) </label>
             <input
               value={newUser.experienceLevel}
               onChange={(e) => onChange("experienceLevel", e)}
               type="number"
+              min="1"
+              max="10"
             />
           </div>
           <div style={{ margin: "10px" }}>
@@ -142,13 +162,13 @@ export const Users = () => {
           </label>
           <form>
             <div>
-              <label>username </label>
+              <label> Username </label>
               <input
                 onChange={(e) => onChangeEdit("userName", e)}
                 value={selectedUser.userName}
                 type="text"
               />
-              <label> contact </label>
+              <label> Contact </label>
               <input
                 onChange={(e) => onChangeEdit("contact", e)}
                 value={selectedUser.contact}
@@ -156,11 +176,13 @@ export const Users = () => {
               />
             </div>
             <div>
-              <label>experience level </label>
+              <label> Experience Level (1-10) </label>
               <input
                 value={selectedUser.experienceLevel}
                 onChange={(e) => onChangeEdit("experienceLevel", e)}
                 type="number"
+                min="1"
+                max="10"
               />
             </div>
             <div style={{ margin: "10px" }}>

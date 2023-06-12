@@ -108,30 +108,36 @@ export const TrailMaps = () => {
       <h3>TrailMaps Table</h3>
       <p>This is the DB admin page for TrailMaps</p>
 
-      <div>
-        <label>Add TrailMap</label>
+      <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
+        <label>
+          <b>Add TrailMap</b>
+        </label>
         <form>
-          <label>Trail</label>
-          <select
-            value={currentTrail}
-            onChange={(e) => setCurrentTrail(e.target.value)}
-          >
-            <option value="">None</option>
-            {trailIDs.map((id) => (
-              <option key={id}>{id}</option>
-            ))}
-          </select>
-          <label>Map</label>
-          <select
-            value={currentMap}
-            onChange={(e) => setCurrentMap(e.target.value)}
-          >
-            <option value="">None</option>
-            {mapIDs.map((id) => (
-              <option key={id}>{id}</option>
-            ))}
-          </select>
-          <button onClick={handleAddTrailMap}> Add TrailMap</button>
+          <div>
+            <label> Trail </label>
+            <select
+                value={currentTrail}
+                onChange={(e) => setCurrentTrail(e.target.value)}
+            >
+                <option value="">None</option>
+                {trailIDs.map((id) => (
+                <option key={id}>{id}</option>
+                ))}
+            </select>
+            <label> Map </label>
+            <select
+                value={currentMap}
+                onChange={(e) => setCurrentMap(e.target.value)}
+            >
+                <option value="">None</option>
+                {mapIDs.map((id) => (
+                <option key={id}>{id}</option>
+                ))}
+            </select>
+          </div>
+          <div style={{ margin: "10px" }}>
+            <button onClick={handleAddTrailMap}> Add TrailMap</button>
+          </div>
         </form>
       </div>
 
@@ -148,7 +154,7 @@ export const TrailMaps = () => {
           </label>
           <form>
             <div>
-              <label>Trail</label>
+              <label> Trail </label>
               <select 
                 onChange={(e) => onChangeEdit("newTrailID", e)}>
                 <option value="">None</option>
@@ -156,7 +162,7 @@ export const TrailMaps = () => {
                   <option key={u}>{u}</option>
                 ))}
               </select>
-              <label>Map</label>
+              <label> Map </label>
               <select onChange={(e) => onChangeEdit("newMapID", e)}>
                 <option value="">None</option>
                 {mapIDs.map((c) => (
@@ -164,8 +170,10 @@ export const TrailMaps = () => {
                 ))}
               </select>
             </div>
-            <button onClick={handleUpdate}>Update Review</button>
-            <button onClick={() => setShowForm(false)}>Cancel</button>
+            <div style={{ margin: "10px" }}>
+              <button onClick={handleUpdate}>Update Review</button>
+              <button onClick={() => setShowForm(false)}>Cancel</button>
+            </div>
           </form>
         </div>
       )}

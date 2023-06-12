@@ -97,14 +97,18 @@ export const Maps = () => {
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
-          <b>Add a Map</b>
+          <b>Add Map</b>
         </label>
         <form>
-          <label>Title</label>
-          <input type="text" onChange={(e) => onChangeNew("title", e)} />
-          <label>URL</label>
-          <input type="text" onChange={(e) => onChangeNew("url", e)} />
-          <button onClick={handleAdd}>Add Map </button>
+          <div>
+            <label> Title </label>
+            <input type="text" onChange={(e) => onChangeNew("title", e)} />
+            <label> URL </label>
+            <input type="text" onChange={(e) => onChangeNew("url", e)} />
+          </div>
+          <div style={{ margin: "10px" }}>
+            <button onClick={handleAdd}>Add Map </button>
+          </div>
         </form>
       </div>
 
@@ -121,14 +125,14 @@ export const Maps = () => {
           </label>
           <form>
             <div>
-              <label>Title</label>
+              <label> Title </label>
               <input
                 onChange={(e) => onChangeEdit("title", e)}
                 value={selectedMap.title}
                 type="text"
                 placeholder={selectedMap.title}
               />
-              <label>url</label>
+              <label> URL </label>
               <input
                 onChange={(e) => onChangeEdit("url", e)}
                 value={selectedMap.url}
@@ -136,10 +140,12 @@ export const Maps = () => {
                 placeholder={selectedMap.url}
               />
             </div>
-            <button type={"submit"} onClick={handleEdit}>
+            <div style={{ margin: "10px" }}>
+              <button type={"submit"} onClick={handleEdit}>
               Update Map
-            </button>
-            <button onClick={() => setShowForm(false)}>Cancel</button>
+              </button>
+              <button onClick={() => setShowForm(false)}>Cancel</button>
+            </div>
           </form>
         </div>
       )}
