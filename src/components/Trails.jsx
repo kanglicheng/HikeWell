@@ -37,6 +37,7 @@ export const Trails = () => {
   const getTrails = async () => {
     const response = await fetch(`${baseUrl}/trails`);
     const responseData = await response.json();
+    responseData.sort((a,b) => a.trailID - b.trailID);
     setTrails(responseData);
   };
 
@@ -119,22 +120,22 @@ export const Trails = () => {
       <nav className={"nav-bar"}>
         <ul>
           <li>
-            <a href="/">Home </a>
+            <a href="/"> Home </a>
           </li>
           <li>
-            <a href="/trails">Trails</a>
+            <a href="/trails"> Trails </a>
           </li>
           <li>
-            <a href="/reviews">Reviews</a>
+            <a href="/maps"> Maps </a>
           </li>
           <li>
-            <a href="/maps">Maps</a>
+            <a href="/trailmaps"> TrailMaps </a>
           </li>
           <li>
-            <a href="/users">Users</a>
+            <a href="/users"> Users </a>
           </li>
           <li>
-            <a href="/trailmaps">TrailMaps</a>
+            <a href="/reviews"> Reviews </a>
           </li>
         </ul>
       </nav>
