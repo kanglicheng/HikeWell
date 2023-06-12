@@ -29,6 +29,13 @@ export const Reviews = () => {
     selectedReview.enjoyability = Math.round(selectedReview.enjoyability);
     selectedReview.difficulty = Math.round(selectedReview.difficulty);
 
+    console.log(selectedReview.enjoyability);
+    console.log(selectedReview.difficulty);
+    if(selectedReview.enjoyability == null || Number.isNaN(selectedReview.enjoyability)) newReview.enjoyability = 1;
+    if(selectedReview.difficulty == null || Number.isNaN(selectedReview.difficulty)) newReview.difficulty = 1;
+    if(selectedReview.description == null) selectedReview.description = "";
+    if(!selectedReview.userID) selectedReview.userID = "0 null";
+
     axios
       .put(`${baseUrl}/editReview`, {
         reviewID: Number(selectedReview.reviewID),
@@ -82,6 +89,7 @@ export const Reviews = () => {
     const response = await fetch(`${baseUrl}/trails`);
     const data = await response.json();
     const choices = data.map((d) => d.trailID + " " + d.name);
+    setSelectedTrailID(choices[0]);
     setTrailChoices(choices);
   };
 
@@ -111,6 +119,13 @@ export const Reviews = () => {
     newReview.enjoyability = Math.round(newReview.enjoyability);
     newReview.difficulty = Math.round(newReview.difficulty);
 
+    console.log(newReview.enjoyability);
+    console.log(newReview.difficulty);
+    if(newReview.enjoyability == null || Number.isNaN(newReview.enjoyability)) newReview.enjoyability = 1;
+    if(newReview.difficulty == null || Number.isNaN(newReview.difficulty)) newReview.difficulty = 1;
+    if(newReview.description == null) newReview.description = "";
+    if(!selectedUserID) setSelectedUserID("0 null");
+
     axios
       .post(`${baseUrl}/addReview`, {
         enjoyability: Number(newReview.enjoyability),
@@ -120,6 +135,12 @@ export const Reviews = () => {
         trailID: Number(selectedTrailID.split(" ")[0]),
       })
       .then((response) => getReviews());
+/*
+    newReview.enjoyability = '1';
+    newReview.difficulty = '1';
+    newReview.description = '';
+    setSelectedUserID(null);
+    setSelectedTrailID(null);*/
   };
 
   return (
@@ -178,7 +199,7 @@ export const Reviews = () => {
             <input 
               onChange={(e) => onChange("description", e)}
               value={newReview.description}
-              type="test"
+              type="text"
             />
             <label> User </label>
             <select
@@ -195,7 +216,7 @@ export const Reviews = () => {
               onChange={(e) => setSelectedTrailID(e.target.value)}
               value={selectedTrailID}
             >
-              <option value="">None</option>
+              <option value={selectedTrailID} selected disabled hidden>{selectedTrailID}</option>
               {trailChoices.map((c) => (
                 <option key={c}>{c}</option>
               ))}
@@ -252,6 +273,9 @@ export const Reviews = () => {
               <label> User </label>
               <select 
                 onChange={(e) => onChangeEdit("userID", e)}>
+                <option value={selectedReview.userID} selected disabled hidden>
+                  {userChoices.find(element => element.includes(selectedReview.userID?.toString())) ?? "None"}
+                </option>
                 <option value="">None</option>
                 {userChoices.map((u) => (
                   <option key={u}>{u}</option>
@@ -259,7 +283,9 @@ export const Reviews = () => {
               </select>
               <label> Trail </label>
               <select onChange={(e) => onChangeEdit("trailID", e)}>
-                <option value="">None</option>
+                <option value={selectedReview.trailID} selected disabled hidden>
+                  {trailChoices.find(element => element.includes(selectedReview.trailID?.toString())) ?? 99}
+                </option>
                 {trailChoices.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
