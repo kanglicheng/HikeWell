@@ -34,6 +34,9 @@ function App() {
         <p>
           Built by Kang-Li Cheng and Darren Garnett, June 2023
         </p>
+        <p>
+          Background image provided by <a href="https://www.freepik.com/author/mandariny4">mandariny4</a>
+        </p>
       </div>
     </div>
   );
