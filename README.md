@@ -1,9 +1,36 @@
 # Code Citations and Sources
 
 - This project heavily leveraged starter code [create-react-app ](https://github.com/facebook/create-react-app) starter code.
-- Some CSS styling code specific to background-image was found [here][https://stackoverflow.com/a/41663193/1914609].
-- Event handler code was inspired by the [official React documentation][https://react.dev/learn/responding-to-events]
-- API communication code taken from snippets found on [axios documentation][https://axios-http.com/docs/api_intro]
+- Some CSS styling code specific to background-image was found [here](https://stackoverflow.com/a/41663193/1914609).
+- Event handler code was inspired by the [official React documentation](https://react.dev/learn/responding-to-events).
+- API communication code taken from snippets found on [axios documentation](https://axios-http.com/docs/api_intro).
+
+# Citations for specific sections
+
+Citation for rounding to desired decimal place:
+Date: 6/12/2023
+Adapted from Syed Minhal Abbas
+I adapted the values and names to fit, utilizing the rounding approach for different degrees of precision.
+Source URL: [https://linuxhint.com/round-number-to-2-decimal-places-javascript/](https://linuxhint.com/round-number-to-2-decimal-places-javascript/)
+
+Citation for table sorting:
+Date: 6/12/2023
+Copied from the answer including Wogan, Peter Mortensen, and Andre Figueiredo
+I copied the numeric approach, just changing the variable names to fit.
+Source URL: [https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value](https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value)
+
+Citation for dropdown default case:
+Date: 6/12/2023
+Adapted from Aurelio's answer
+I adapted the "selected disabled hidden" approach for our default case, but the rest of the dropdown was our own implementation.
+Source URL: [https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element](https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element)
+
+Citation for finding an array element with a substring:
+Date: 6/12/2023
+Adapted from smnth90's answer
+I adpated the find method for getting the dropdown value from current selected item(for UPDATE), having to get the substring dynamically and null check.
+Source URL: [https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B](https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -74,29 +101,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### Citations
-
-# Citation for rounding to desired decimal place:
-# Date: 6/12/2023
-# Adapted from Syed Minhal Abbas
-# I adapted the values and names to fit, utilizing the rounding approach for different degrees of precision.
-# Source URL: [https://linuxhint.com/round-number-to-2-decimal-places-javascript/](https://linuxhint.com/round-number-to-2-decimal-places-javascript/)
-
-# Citation for table sorting:
-# Date: 6/12/2023
-# Copied from the answer including Wogan, Peter Mortensen, and Andre Figueiredo
-# I copied the numeric approach, just changing the variable names to fit.
-# Source URL: [https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value](https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value)
-
-# Citation for dropdown default case:
-# Date: 6/12/2023
-# Adapted from Aurelio's answer
-# I adapted the "selected disabled hidden" approach for our default case, but the rest of the dropdown was our own implementation.
-# Source URL: [https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element](https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element)
-
-# Citation for finding an array element with a substring:
-# Date: 6/12/2023
-# Adapted from smnth90's answer
-# I adpated the find method for getting the dropdown value from current selected item(for UPDATE), having to get the substring dynamically and null check.
-# Source URL: [https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B](https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B)

@@ -299,7 +299,7 @@ export const Reviews = () => {
               />
             </div>
             <div>
-              <label> Description </label>
+              <label> Description* </label>
               <input
                 onChange={(e) => onChangeEdit("description", e)}
                 value={selectedReview.description}
@@ -310,7 +310,7 @@ export const Reviews = () => {
               <select 
                 onChange={(e) => onChangeEdit("userID", e)}>
                 {/* Sources:[2],[3] */}
-                <option value={selectedReview.userID} selected disabled hidden>
+                <option value={selectedReview.newUserID} selected disabled hidden>
                   {userChoices.find(element => element.includes(selectedReview.userID?.toString())) ?? "None"}
                 </option>
                 <option value="">None</option>
@@ -318,7 +318,7 @@ export const Reviews = () => {
                   <option key={u}>{u}</option>
                 ))}
               </select>
-              <label> Trail </label>
+              <label> Trail* </label>
               <select onChange={(e) => onChangeEdit("trailID", e)}>
                 {/* Source:[2],[3] */}
                 <option value={selectedReview.trailID} selected disabled hidden>
@@ -331,6 +331,7 @@ export const Reviews = () => {
             </div>
             <button disabled={isEditDisabled} onClick={handleUpdate}>Update Review</button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
+            <span> * indicates field is required</span>
           </form>
         </div>
       )}

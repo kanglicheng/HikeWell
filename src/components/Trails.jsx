@@ -239,7 +239,7 @@ export const Trails = () => {
               min="-180"
               max="180"
             />
-            <label> Distance </label>
+            <label> Distance* </label>
             <input
               onChange={(e) => onChangeNew("distance", e)}
               value={newTrail.distance || ""}
@@ -251,7 +251,7 @@ export const Trails = () => {
             <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Trail{" "}
             </button>
-            <span>* denotes required field</span>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -269,14 +269,14 @@ export const Trails = () => {
           </label>
           <form>
             <div>
-              <label> Name </label>
+              <label> Name* </label>
               <input
                 onChange={(e) => onChangeEdit("name", e)}
                 value={selectedTrail.name}
                 type="text"
                 placeholder={selectedTrail.name}
               />
-              <label> City </label>
+              <label> City* </label>
               <input
                 onChange={(e) => onChangeEdit("city", e)}
                 value={selectedTrail.city}
@@ -285,14 +285,14 @@ export const Trails = () => {
               />
             </div>
             <div>
-              <label> State </label>
+              <label> State* </label>
               <input
                 onChange={(e) => onChangeEdit("state", e)}
                 value={selectedTrail.state}
                 type="text"
                 placeholder={selectedTrail.state}
               />
-              <label> Latitude </label>
+              <label> Latitude* </label>
               <input
                 onChange={(e) => onChangeEdit("lat", e)}
                 value={selectedTrail.lat}
@@ -301,7 +301,7 @@ export const Trails = () => {
                 min="-90"
                 max="90"
               />
-              <label> Longitude </label>
+              <label> Longitude* </label>
               <input
                 onChange={(e) => onChangeEdit("lng", e)}
                 value={selectedTrail.lng}
@@ -310,7 +310,7 @@ export const Trails = () => {
                 min="-180"
                 max="180"
               />
-              <label> Distance </label>
+              <label> Distance* </label>
               <input
                 onChange={(e) => onChangeEdit("distance", e)}
                 value={selectedTrail.distance}
@@ -323,6 +323,7 @@ export const Trails = () => {
               Update Trail
             </button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
+            <span> * indicates field is required</span>
           </form>
         </div>
       )}

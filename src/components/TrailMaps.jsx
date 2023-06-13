@@ -1,3 +1,20 @@
+/*
+** Citation for dropdown default case[1]:
+** Date: 6/12/2023
+** Adapted from Aurelio's answer
+** I adapted the "selected disabled hidden" approach for our default case, but the rest of the dropdown was our own implementation.
+** Source URL: https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element
+*/
+
+/*
+** Citation for finding an array element with a substring[2]:
+** Date: 6/12/2023
+** Adapted from smnth90's answer
+** I adpated the find method for getting the dropdown value from current selected item(for UPDATE), having to get the substring dynamically and null check.
+** Source URL: https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B
+*/
+
+
 import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
@@ -15,22 +32,22 @@ export const TrailMaps = () => {
   const handleEdit = (i) => {
     setShowForm(true);
     setSelectedTrailMap(trailMaps[i]);
+    console.log(selectedTrailMap);
   };
 
   const isDisabled = React.useMemo(()=>{
-    if(!currentTrail  || currentTrail === "None" || currentMap === "None" || !currentMap){
+    if(!currentTrail || !currentMap || currentTrail === "None" || currentMap === "None"){
       return true;
     }
     return false;
   }, [currentMap, currentTrail])
 
   const isEditDisabled = React.useMemo(()=>{
-    if(!selectedTrailMap || !selectedTrailMap.newTrailID || ! selectedTrailMap.newMapID || selectedTrailMap.newMapID === "None" 
-    || selectedTrailMap.newTrailID === "None"){
+    if(!selectedTrailMap.newTrailID || !selectedTrailMap.newMapID || selectedTrailMap.newTrailID === "None" || selectedTrailMap.newMapID === "None"){
       return true;
     }
     return false;
-  }, [selectedTrailMap])
+  }, [selectedTrailMap.newTrailID, selectedTrailMap.newMapID])
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -130,22 +147,22 @@ export const TrailMaps = () => {
         </label>
         <form>
           <div>
-            <label> Trail </label>
+            <label> Trail* </label>
             <select
                 value={currentTrail}
                 onChange={(e) => setCurrentTrail(e.target.value)}
             >
-                <option value="">None</option>
+                <option value="None">None</option>
                 {trailIDs.map((id) => (
                 <option key={id}>{id}</option>
                 ))}
             </select>
-            <label> Map </label>
+            <label> Map* </label>
             <select
                 value={currentMap}
                 onChange={(e) => setCurrentMap(e.target.value)}
             >
-                <option value="">None</option>
+                <option value="None">None</option>
                 {mapIDs.map((id) => (
                 <option key={id}>{id}</option>
                 ))}
@@ -172,16 +189,21 @@ export const TrailMaps = () => {
           <form>
             <div>
               <label> Trail* </label>
-              <select 
-                onChange={(e) => onChangeEdit("newTrailID", e)}>
-                <option value="">None</option>
+              <select onChange={(e) => onChangeEdit("newTrailID", e)}>
+                {/* Sources:[1],[2] */}
+                <option value={selectedTrailMap.newTrailID} selected disabled hidden>
+                  {trailIDs.find(element => element.includes(selectedTrailMap.trailID?.toString())) ?? "None"}
+                </option>
                 {trailIDs.map((u) => (
                   <option key={u}>{u}</option>
                 ))}
               </select>
               <label> Map* </label>
               <select onChange={(e) => onChangeEdit("newMapID", e)}>
-                <option value="">None</option>
+                {/* Sources:[1],[2] */}
+                <option value={selectedTrailMap.newMapID} selected disabled hidden>
+                  {mapIDs.find(element => element.includes(selectedTrailMap.mapID?.toString())) ?? "None"}
+                </option>
                 {mapIDs.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
@@ -190,6 +212,7 @@ export const TrailMaps = () => {
             <div style={{ margin: "10px" }}>
               <button disabled={isEditDisabled} onClick={handleUpdate}>Update TrailMap</button>
               <button onClick={() => setShowForm(false)}>Cancel</button>
+              <span> * indicates field is required</span>
             </div>
           </form>
         </div>

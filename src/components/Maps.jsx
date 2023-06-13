@@ -39,24 +39,24 @@ export const Maps = () => {
   }, []);
 
   const isDisabled = React.useMemo(()=> {
-    if(!newMap.url){
+    if(!newMap.title || !newMap.url){
       return true;
     }
     else{
       return false;
     }
 
-  }, [newMap.url])
+  }, [newMap])
 
   const isEditDisabled = React.useMemo(()=> {
-    if(!selectedMap.url){
+    if(!selectedMap.title || !selectedMap.url){
       return true;
     }
     else{
       return false;
     }
 
-  }, [selectedMap.url])
+  }, [selectedMap])
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -133,7 +133,7 @@ export const Maps = () => {
         </label>
         <form>
           <div>
-            <label> Title </label>
+            <label> Title* </label>
             <input type="text" onChange={(e) => onChangeNew("title", e)} />
             <label> URL* </label>
             <input type="text" onChange={(e) => onChangeNew("url", e)} />
@@ -158,14 +158,14 @@ export const Maps = () => {
           </label>
           <form>
             <div>
-              <label> Title </label>
+              <label> Title* </label>
               <input
                 onChange={(e) => onChangeEdit("title", e)}
                 value={selectedMap.title}
                 type="text"
                 placeholder={selectedMap.title}
               />
-              <label> URL </label>
+              <label> URL* </label>
               <input
                 onChange={(e) => onChangeEdit("url", e)}
                 value={selectedMap.url}
@@ -178,6 +178,7 @@ export const Maps = () => {
               Update Map
               </button>
               <button onClick={() => setShowForm(false)}>Cancel</button>
+              <span> * indicates field is required</span>
             </div>
           </form>
         </div>
