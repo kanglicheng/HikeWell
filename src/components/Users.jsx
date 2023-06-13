@@ -37,12 +37,12 @@ export const Users = () => {
   }, []);
 
   const isDisabled = React.useMemo(()=>{
-    if(!newUser.userName){
+    if(!newUser.userName || !newUser.contact || !newUser.experienceLevel){
       return true;
     }else{
       return false;
     }
-  }, [newUser.userName])
+  }, [newUser])
 
   const isEditDisabled = React.useMemo(()=>{
     if(!selectedUser.userName){
@@ -141,13 +141,13 @@ export const Users = () => {
         </label>
         <form>
           <div>
-            <label> Username </label>
+            <label> Username* </label>
             <input
               onChange={(e) => onChange("userName", e)}
               value={newUser.userName}
               type="text"
             />
-            <label> Contact </label>
+            <label> Contact* </label>
             <input
               onChange={(e) => onChange("contact", e)}
               value={newUser.contact}
@@ -155,7 +155,7 @@ export const Users = () => {
             />
           </div>
           <div>
-            <label> Experience Level (1-10) </label>
+            <label> Experience Level (1-10)* </label>
             <input
               value={newUser.experienceLevel}
               onChange={(e) => onChange("experienceLevel", e)}
@@ -168,6 +168,7 @@ export const Users = () => {
             <button disabled={isDisabled} type={"submit"} onClick={handleAdd}>
               Add User{" "}
             </button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>

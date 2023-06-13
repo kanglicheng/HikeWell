@@ -124,11 +124,12 @@ export const Maps = () => {
           <div>
             <label> Title </label>
             <input type="text" onChange={(e) => onChangeNew("title", e)} />
-            <label> URL </label>
+            <label> URL* </label>
             <input type="text" onChange={(e) => onChangeNew("url", e)} />
           </div>
           <div style={{ margin: "10px" }}>
             <button disabled={isDisabled} onClick={handleAdd}>Add Map </button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>

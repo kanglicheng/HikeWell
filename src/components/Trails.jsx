@@ -52,7 +52,7 @@ export const Trails = () => {
   const isDisabled = React.useMemo(()=>{
 
     if(!newTrail.name || !newTrail.city || !newTrail.state || !newTrail.lat || 
-      !newTrail.lng){
+      !newTrail.lng || !newTrail.distance){
         return true;
       }
     else {
