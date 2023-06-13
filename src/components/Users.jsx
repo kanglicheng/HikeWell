@@ -37,7 +37,7 @@ export const Users = () => {
   }, []);
 
   const isDisabled = React.useMemo(()=>{
-    if(!newUser.userName || !newUser.contact || !newUser.experienceLevel){
+    if(!newUser.userName || !newUser.experienceLevel){
       return true;
     }else{
       return false;
@@ -147,7 +147,7 @@ export const Users = () => {
               value={newUser.userName}
               type="text"
             />
-            <label> Contact* </label>
+            <label> Contact </label>
             <input
               onChange={(e) => onChange("contact", e)}
               value={newUser.contact}
