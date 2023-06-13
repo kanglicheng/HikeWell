@@ -61,6 +61,18 @@ export const Trails = () => {
 
   }, [newTrail])
 
+  const isEditDisabled = React.useMemo(()=>{
+
+    if(!selectedTrail.name || !selectedTrail.city || !selectedTrail.state || !selectedTrail.lat || 
+      !selectedTrail.lng || !selectedTrail.distance){
+        return true;
+      }
+    else {
+      return false;
+    }
+
+  }, [selectedTrail])
+
   const handleDelete = (trailID) => {
     axios
       .post(`${baseUrl}/deleteTrail`, {
@@ -280,7 +292,7 @@ export const Trails = () => {
                 min="0"
               />
             </div>
-            <button type={"submit"} onClick={handleEdit}>
+            <button type={"submit"} onClick={handleEdit} disabled={isEditDisabled}>
               Update Trail
             </button>
             <button onClick={() => setShowForm(false)}>Cancel</button>

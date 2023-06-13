@@ -142,6 +142,14 @@ export const Reviews = () => {
 
   }, [newReview, selectedTrailID])
 
+  const isEditDisabled =  React.useMemo(()=>{
+    if(!selectedReview.enjoyability || !selectedReview.difficulty || ! selectedReview.description || !selectedTrailID){
+      return true;
+    }
+    return false;
+
+  }, [selectedReview, selectedTrailID])
+
   return (
     <div className='container'>
       <h2>HikeWell DB Admin</h2>
@@ -291,7 +299,7 @@ export const Reviews = () => {
                 ))}
               </select>
             </div>
-            <button onClick={handleUpdate}>Update Review</button>
+            <button disabled={isEditDisabled} onClick={handleUpdate}>Update Review</button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
           </form>
         </div>

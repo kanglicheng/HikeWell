@@ -24,6 +24,14 @@ export const TrailMaps = () => {
     return false;
   }, [currentMap, currentTrail])
 
+  const isEditDisabled = React.useMemo(()=>{
+    if(!selectedTrailMap || !selectedTrailMap.newTrailID || ! selectedTrailMap.newMapID || selectedTrailMap.newMapID === "None" 
+    || selectedTrailMap.newTrailID === "None"){
+      return true;
+    }
+    return false;
+  }, [selectedTrailMap])
+
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
@@ -179,7 +187,7 @@ export const TrailMaps = () => {
               </select>
             </div>
             <div style={{ margin: "10px" }}>
-              <button onClick={handleUpdate}>Update Review</button>
+              <button disabled={isEditDisabled} onClick={handleUpdate}>Update TrailMap</button>
               <button onClick={() => setShowForm(false)}>Cancel</button>
             </div>
           </form>
