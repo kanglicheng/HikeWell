@@ -9,16 +9,35 @@ export const Trails = () => {
   const [selectedTrail, setSelectedTrail] = React.useState({});
 
   const onChangeNew = (key, e) => {
+    if(newTrail.lat > 90) newTrail.lat = 90;
+    if(newTrail.lng > 180) newTrail.lng = 180;
+    if(newTrail.lat < -90) newTrail.lat = -90;
+    if(newTrail.lng < -180) newTrail.lng = -180;
+    if(newTrail.distance < 0.01) newTrail.distance = 0.01;
+    newTrail.lat = Math.round(newTrail.lat * 10000) / 10000;
+    newTrail.lng = Math.round(newTrail.lng * 10000) / 10000;
+    newTrail.distance = Math.round(newTrail.distance * 100) / 100;
+
     setNewTrail({ ...newTrail, [key]: e.target.value });
   };
 
   const onChangeEdit = (key, e) => {
+    if(selectedTrail.lat > 90) selectedTrail.lat = 90;
+    if(selectedTrail.lng > 180) selectedTrail.lng = 180;
+    if(selectedTrail.lat < -90) selectedTrail.lat = -90;
+    if(selectedTrail.lng < -180) selectedTrail.lng = -180;
+    if(selectedTrail.distance < 0.01) selectedTrail.distance = 0.01;
+    selectedTrail.lat = Math.round(selectedTrail.lat * 10000) / 10000;
+    selectedTrail.lng = Math.round(selectedTrail.lng * 10000) / 10000;
+    selectedTrail.distance = Math.round(selectedTrail.distance * 100) / 100;
+
     setSelectedTrail({ ...selectedTrail, [key]: e.target.value });
   };
 
   const getTrails = async () => {
     const response = await fetch(`${baseUrl}/trails`);
     const responseData = await response.json();
+    responseData.sort((a,b) => a.trailID - b.trailID);
     setTrails(responseData);
   };
 
@@ -38,6 +57,16 @@ export const Trails = () => {
 
   const handleAdd = (e) => {
     e.preventDefault();
+
+    if(newTrail.lat > 90) newTrail.lat = 90;
+    if(newTrail.lng > 180) newTrail.lng = 180;
+    if(newTrail.lat < -90) newTrail.lat = -90;
+    if(newTrail.lng < -180) newTrail.lng = -180;
+    if(newTrail.distance < 0.01) newTrail.distance = 0.01;
+    newTrail.lat = Math.round(newTrail.lat * 10000) / 10000;
+    newTrail.lng = Math.round(newTrail.lng * 10000) / 10000;
+    newTrail.distance = Math.round(newTrail.distance * 100) / 100;
+
     axios
       .post(`${baseUrl}/addTrail`, {
         name: newTrail.name,
@@ -59,6 +88,16 @@ export const Trails = () => {
 
   const handleEdit = (e) => {
     e.preventDefault();
+
+    if(selectedTrail.lat > 90) selectedTrail.lat = 90;
+    if(selectedTrail.lng > 180) selectedTrail.lng = 180;
+    if(selectedTrail.lat < -90) selectedTrail.lat = -90;
+    if(selectedTrail.lng < -180) selectedTrail.lng = -180;
+    if(selectedTrail.distance < 0.01) selectedTrail.distance = 0.01;
+    selectedTrail.lat = Math.round(selectedTrail.lat * 10000) / 10000;
+    selectedTrail.lng = Math.round(selectedTrail.lng * 10000) / 10000;
+    selectedTrail.distance = Math.round(selectedTrail.distance * 100) / 100;
+
     axios
       .put(`${baseUrl}/editTrail`, {
         trailID: Number(selectedTrail.trailID),
@@ -81,22 +120,22 @@ export const Trails = () => {
       <nav className={"nav-bar"}>
         <ul>
           <li>
-            <a href="/">Home </a>
+            <a href="/"> Home </a>
           </li>
           <li>
-            <a href="/trails">Trails</a>
+            <a href="/trails"> Trails </a>
           </li>
           <li>
-            <a href="/reviews">Reviews</a>
+            <a href="/maps"> Maps </a>
           </li>
           <li>
-            <a href="/maps">Maps</a>
+            <a href="/trailmaps"> TrailMaps </a>
           </li>
           <li>
-            <a href="/users">Users</a>
+            <a href="/users"> Users </a>
           </li>
           <li>
-            <a href="/trailmaps">TrailMaps</a>
+            <a href="/reviews"> Reviews </a>
           </li>
         </ul>
       </nav>
@@ -105,17 +144,17 @@ export const Trails = () => {
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
-          <b>Add a Trail</b>
+          <b>Add Trail</b>
         </label>
         <form>
           <div>
-            <label>Name </label>
+            <label> Name </label>
             <input
               value={newTrail.name || ""}
               onChange={(e) => onChangeNew("name", e)}
               type="text"
             />
-            <label>City </label>
+            <label> City </label>
             <input
               onChange={(e) => onChangeNew("city", e)}
               value={newTrail.city || ""}
@@ -134,18 +173,23 @@ export const Trails = () => {
               onChange={(e) => onChangeNew("lat", e)}
               value={newTrail.lat || ""}
               type="number"
+              min="-90"
+              max="90"
             />
             <label> Longitude </label>
             <input
               onChange={(e) => onChangeNew("lng", e)}
               value={newTrail.lng || ""}
               type="number"
+              min="-180"
+              max="180"
             />
             <label> Distance </label>
             <input
               onChange={(e) => onChangeNew("distance", e)}
               value={newTrail.distance || ""}
               type="number"
+              min="0"
             />
           </div>
           <div style={{ margin: "10px" }}>
@@ -164,16 +208,19 @@ export const Trails = () => {
             border: "1px solid magenta",
           }}
         >
+          <label>
+            <b>Edit Trail</b>
+          </label>
           <form>
             <div>
-              <label>Name</label>
+              <label> Name </label>
               <input
                 onChange={(e) => onChangeEdit("name", e)}
                 value={selectedTrail.name}
                 type="text"
                 placeholder={selectedTrail.name}
               />
-              <label>City</label>
+              <label> City </label>
               <input
                 onChange={(e) => onChangeEdit("city", e)}
                 value={selectedTrail.city}
@@ -182,33 +229,38 @@ export const Trails = () => {
               />
             </div>
             <div>
-              <label>State</label>
+              <label> State </label>
               <input
                 onChange={(e) => onChangeEdit("state", e)}
                 value={selectedTrail.state}
                 type="text"
                 placeholder={selectedTrail.state}
               />
-              <label>Latitude</label>
+              <label> Latitude </label>
               <input
                 onChange={(e) => onChangeEdit("lat", e)}
                 value={selectedTrail.lat}
                 type="number"
                 placeholder={selectedTrail.lat}
+                min="-90"
+                max="90"
               />
-              <label>Longitude</label>
+              <label> Longitude </label>
               <input
                 onChange={(e) => onChangeEdit("lng", e)}
                 value={selectedTrail.lng}
                 type="number"
                 placeholder={selectedTrail.lng}
+                min="-180"
+                max="180"
               />
-              <label>Distance</label>
+              <label> Distance </label>
               <input
                 onChange={(e) => onChangeEdit("distance", e)}
                 value={selectedTrail.distance}
                 type="number"
                 placeholder={selectedTrail.distance}
+                min="0"
               />
             </div>
             <button type={"submit"} onClick={handleEdit}>

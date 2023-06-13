@@ -19,6 +19,7 @@ export const Maps = () => {
   const getMaps = async () => {
     const response = await fetch(`${baseUrl}/maps`);
     const responseData = await response.json();
+    responseData.sort((a,b) => a.mapID - b.mapID);
     setMaps(responseData);
   };
 
@@ -73,22 +74,22 @@ export const Maps = () => {
       <nav className={"nav-bar"}>
         <ul>
           <li>
-            <a href="/">Home </a>
+            <a href="/"> Home </a>
           </li>
           <li>
-            <a href="/trails">Trails</a>
+            <a href="/trails"> Trails </a>
           </li>
           <li>
-            <a href="/reviews">Reviews</a>
+            <a href="/maps"> Maps </a>
           </li>
           <li>
-            <a href="/maps">Maps</a>
+            <a href="/trailmaps"> TrailMaps </a>
           </li>
           <li>
-            <a href="/users">Users</a>
+            <a href="/users"> Users </a>
           </li>
           <li>
-            <a href="/trailmaps">TrailMaps</a>
+            <a href="/reviews"> Reviews </a>
           </li>
         </ul>
       </nav>
@@ -97,14 +98,18 @@ export const Maps = () => {
 
       <div style={{ padding: "5px", margin: "20px", border: "1px solid blue" }}>
         <label>
-          <b>Add a Map</b>
+          <b>Add Map</b>
         </label>
         <form>
-          <label>Title</label>
-          <input type="text" onChange={(e) => onChangeNew("title", e)} />
-          <label>URL</label>
-          <input type="text" onChange={(e) => onChangeNew("url", e)} />
-          <button onClick={handleAdd}>Add Map </button>
+          <div>
+            <label> Title </label>
+            <input type="text" onChange={(e) => onChangeNew("title", e)} />
+            <label> URL </label>
+            <input type="text" onChange={(e) => onChangeNew("url", e)} />
+          </div>
+          <div style={{ margin: "10px" }}>
+            <button onClick={handleAdd}>Add Map </button>
+          </div>
         </form>
       </div>
 
@@ -116,16 +121,19 @@ export const Maps = () => {
             border: "1px solid magenta",
           }}
         >
+          <label>
+            <b>Edit Map</b>
+          </label>
           <form>
             <div>
-              <label>Title</label>
+              <label> Title </label>
               <input
                 onChange={(e) => onChangeEdit("title", e)}
                 value={selectedMap.title}
                 type="text"
                 placeholder={selectedMap.title}
               />
-              <label>url</label>
+              <label> URL </label>
               <input
                 onChange={(e) => onChangeEdit("url", e)}
                 value={selectedMap.url}
@@ -133,10 +141,12 @@ export const Maps = () => {
                 placeholder={selectedMap.url}
               />
             </div>
-            <button type={"submit"} onClick={handleEdit}>
+            <div style={{ margin: "10px" }}>
+              <button type={"submit"} onClick={handleEdit}>
               Update Map
-            </button>
-            <button onClick={() => setShowForm(false)}>Cancel</button>
+              </button>
+              <button onClick={() => setShowForm(false)}>Cancel</button>
+            </div>
           </form>
         </div>
       )}
