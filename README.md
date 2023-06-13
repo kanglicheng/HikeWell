@@ -1,3 +1,9 @@
+# Code Citations and Sources
+
+- This project heavily leveraged starter code [create-react-app ](https://github.com/facebook/create-react-app) starter code.
+- Some CSS styling code specific to background-image was found [here][https://stackoverflow.com/a/41663193/1914609].
+- Event handler code was inspired by the [official React documentation][https://react.dev/learn/responding-to-events]
+- API communication code taken from snippets found on [axios documentation][https://axios-http.com/docs/api_intro]
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
