@@ -1,12 +1,16 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { baseUrl } from "./constants";
 
 export const Trails = () => {
   const [showForm, setShowForm] = React.useState(false);
   const [trails, setTrails] = React.useState([]);
-  const [newTrail, setNewTrail] = React.useState({});
-  const [selectedTrail, setSelectedTrail] = React.useState({});
+  const [newTrail, setNewTrail] = React.useState({
+    name: '', city: '', state: '', lat: undefined, lng: undefined, distance: undefined
+  });
+  const [selectedTrail, setSelectedTrail] = React.useState({
+    name: '', city: '', state: '', lat: undefined, lng: undefined, distance: undefined
+  });
 
   const onChangeNew = (key, e) => {
     if(newTrail.lat > 90) newTrail.lat = 90;
@@ -44,6 +48,18 @@ export const Trails = () => {
   React.useEffect(() => {
     getTrails();
   }, []);
+
+  const isDisabled = React.useMemo(()=>{
+
+    if(!newTrail.name || !newTrail.city || !newTrail.state || !newTrail.lat || 
+      !newTrail.lng){
+        return true;
+      }
+    else {
+      return false;
+    }
+
+  }, [newTrail])
 
   const handleDelete = (trailID) => {
     axios
@@ -193,7 +209,7 @@ export const Trails = () => {
             />
           </div>
           <div style={{ margin: "10px" }}>
-            <button type={"submit"} onClick={handleAdd}>
+            <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Trail{" "}
             </button>
           </div>
