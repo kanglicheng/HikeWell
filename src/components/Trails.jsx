@@ -164,13 +164,13 @@ export const Trails = () => {
         </label>
         <form>
           <div>
-            <label> Name </label>
+            <label> Name* </label>
             <input
               value={newTrail.name || ""}
               onChange={(e) => onChangeNew("name", e)}
               type="text"
             />
-            <label> City </label>
+            <label> City* </label>
             <input
               onChange={(e) => onChangeNew("city", e)}
               value={newTrail.city || ""}
@@ -178,13 +178,13 @@ export const Trails = () => {
             />
           </div>
           <div>
-            <label> State </label>
+            <label> State* </label>
             <input
               onChange={(e) => onChangeNew("state", e)}
               value={newTrail.state || ""}
               type="text"
             />
-            <label> Latitude </label>
+            <label> Latitude* </label>
             <input
               onChange={(e) => onChangeNew("lat", e)}
               value={newTrail.lat || ""}
@@ -192,7 +192,7 @@ export const Trails = () => {
               min="-90"
               max="90"
             />
-            <label> Longitude </label>
+            <label> Longitude* </label>
             <input
               onChange={(e) => onChangeNew("lng", e)}
               value={newTrail.lng || ""}
@@ -212,6 +212,7 @@ export const Trails = () => {
             <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Trail{" "}
             </button>
+            <span>* denotes required field</span>
           </div>
         </form>
       </div>
