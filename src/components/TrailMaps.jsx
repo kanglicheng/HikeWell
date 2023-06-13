@@ -144,6 +144,7 @@ export const TrailMaps = () => {
           </div>
           <div style={{ margin: "10px" }}>
             <button disabled={isDisabled} onClick={handleAddTrailMap}> Add TrailMap</button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -161,7 +162,7 @@ export const TrailMaps = () => {
           </label>
           <form>
             <div>
-              <label> Trail </label>
+              <label> Trail* </label>
               <select 
                 onChange={(e) => onChangeEdit("newTrailID", e)}>
                 <option value="">None</option>
@@ -169,7 +170,7 @@ export const TrailMaps = () => {
                   <option key={u}>{u}</option>
                 ))}
               </select>
-              <label> Map </label>
+              <label> Map* </label>
               <select onChange={(e) => onChangeEdit("newMapID", e)}>
                 <option value="">None</option>
                 {mapIDs.map((c) => (

@@ -176,7 +176,7 @@ export const Reviews = () => {
         </label>
         <form>
           <div>
-            <label> Enjoyability (1-10) </label>
+            <label> Enjoyability (1-10)* </label>
             <input 
               onChange={(e) => onChange("enjoyability", e)}
               value={newReview.enjoyability}
@@ -184,7 +184,7 @@ export const Reviews = () => {
               min="1"
               max="10"
             />
-            <label> Difficulty  (1-10) </label>
+            <label> Difficulty  (1-10)* </label>
             <input 
               onChange={(e) => onChange("difficulty", e)}
               value={newReview.difficulty}
@@ -194,7 +194,7 @@ export const Reviews = () => {
             />
           </div>
           <div>
-            <label> Description </label>
+            <label> Description* </label>
             <input 
               onChange={(e) => onChange("description", e)}
               value={newReview.description}
@@ -210,7 +210,7 @@ export const Reviews = () => {
                 <option key={u}>{u}</option>
               ))}
             </select>
-            <label> Trail </label>
+            <label> Trail* </label>
             <select
               onChange={(e) => setSelectedTrailID(e.target.value)}
               value={selectedTrailID}
@@ -225,6 +225,7 @@ export const Reviews = () => {
             <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Review{" "}
             </button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -242,7 +243,7 @@ export const Reviews = () => {
           </label>
           <form>
             <div>
-              <label> Enjoyability (1-10) </label>
+              <label> Enjoyability (1-10)* </label>
               <input
                 onChange={(e) => onChangeEdit("enjoyability", e)}
                 value={selectedReview.enjoyability}
@@ -251,7 +252,7 @@ export const Reviews = () => {
                 min="1"
                 max="10"
               />
-              <label> Difficulty (1-10) </label>
+              <label> Difficulty (1-10)* </label>
               <input
                 onChange={(e) => onChangeEdit("difficulty", e)}
                 value={selectedReview.difficulty}
