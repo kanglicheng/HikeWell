@@ -30,6 +30,11 @@ function App() {
       <label>Search Hiking Trails </label>
       <input placeholder="eg Mt Wilson" type="text" />
       <button type="submit"> Find !</button>
+      <div>
+        <p>
+          Built by Kang-Li Cheng and Darren Garnett, June 2023
+        </p>
+      </div>
     </div>
   );
 }
