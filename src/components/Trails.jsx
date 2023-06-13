@@ -1,3 +1,19 @@
+/*
+** Citation for table sorting[1]:
+** Date: 6/12/2023
+** Copied from the answer including Wogan, Peter Mortensen, and Andre Figueiredo
+** I copied the numeric approach, just changing the variable names to fit.
+** Source URL: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
+*/
+
+/* 
+** Citation for rounding to desired decimal place[2]:
+** Date: 6/12/2023
+** Adapted from Syed Minhal Abbas
+** I adapted the values and names to fit, utilizing the rounding approach for different degrees of precision.
+** Source URL: https://linuxhint.com/round-number-to-2-decimal-places-javascript/
+*/
+
 import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
@@ -18,6 +34,8 @@ export const Trails = () => {
     if(newTrail.lat < -90) newTrail.lat = -90;
     if(newTrail.lng < -180) newTrail.lng = -180;
     if(newTrail.distance < 0.01) newTrail.distance = 0.01;
+
+    //Source:[2]
     newTrail.lat = Math.round(newTrail.lat * 10000) / 10000;
     newTrail.lng = Math.round(newTrail.lng * 10000) / 10000;
     newTrail.distance = Math.round(newTrail.distance * 100) / 100;
@@ -31,6 +49,8 @@ export const Trails = () => {
     if(selectedTrail.lat < -90) selectedTrail.lat = -90;
     if(selectedTrail.lng < -180) selectedTrail.lng = -180;
     if(selectedTrail.distance < 0.01) selectedTrail.distance = 0.01;
+
+    //Source:[2]
     selectedTrail.lat = Math.round(selectedTrail.lat * 10000) / 10000;
     selectedTrail.lng = Math.round(selectedTrail.lng * 10000) / 10000;
     selectedTrail.distance = Math.round(selectedTrail.distance * 100) / 100;
@@ -41,7 +61,10 @@ export const Trails = () => {
   const getTrails = async () => {
     const response = await fetch(`${baseUrl}/trails`);
     const responseData = await response.json();
+
+    //Source:[1]
     responseData.sort((a,b) => a.trailID - b.trailID);
+
     setTrails(responseData);
   };
 
@@ -91,6 +114,8 @@ export const Trails = () => {
     if(newTrail.lat < -90) newTrail.lat = -90;
     if(newTrail.lng < -180) newTrail.lng = -180;
     if(newTrail.distance < 0.01) newTrail.distance = 0.01;
+
+    //Source:[2]
     newTrail.lat = Math.round(newTrail.lat * 10000) / 10000;
     newTrail.lng = Math.round(newTrail.lng * 10000) / 10000;
     newTrail.distance = Math.round(newTrail.distance * 100) / 100;
@@ -122,6 +147,8 @@ export const Trails = () => {
     if(selectedTrail.lat < -90) selectedTrail.lat = -90;
     if(selectedTrail.lng < -180) selectedTrail.lng = -180;
     if(selectedTrail.distance < 0.01) selectedTrail.distance = 0.01;
+
+    //Source:[2]
     selectedTrail.lat = Math.round(selectedTrail.lat * 10000) / 10000;
     selectedTrail.lng = Math.round(selectedTrail.lng * 10000) / 10000;
     selectedTrail.distance = Math.round(selectedTrail.distance * 100) / 100;

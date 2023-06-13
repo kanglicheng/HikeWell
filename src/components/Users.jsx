@@ -1,3 +1,11 @@
+/*
+** Citation for table sorting[1]:
+** Date: 6/12/2023
+** Copied from the answer including Wogan, Peter Mortensen, and Andre Figueiredo
+** I copied the numeric approach, just changing the variable names to fit.
+** Source URL: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
+*/
+
 import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
@@ -28,7 +36,10 @@ export const Users = () => {
   const getUsers = async () => {
     const response = await fetch(`${baseUrl}/users`);
     const responseData = await response.json();
+
+    //Source:[1]
     responseData.sort((a,b) => a.userID - b.userID);
+
     setUsers(responseData);
   };
 

@@ -1,3 +1,27 @@
+/*
+** Citation for table sorting[1]:
+** Date: 6/12/2023
+** Copied from the answer including Wogan, Peter Mortensen, and Andre Figueiredo
+** I copied the numeric approach, just changing the variable names to fit.
+** Source URL: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
+*/
+
+/*
+** Citation for dropdown default case[2]:
+** Date: 6/12/2023
+** Adapted from Aurelio's answer
+** I adapted the "selected disabled hidden" approach for our default case, but the rest of the dropdown was our own implementation.
+** Source URL: https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element
+*/
+
+/*
+** Citation for finding an array element with a substring[3]:
+** Date: 6/12/2023
+** Adapted from smnth90's answer
+** I adpated the find method for getting the dropdown value from current selected item(for UPDATE), having to get the substring dynamically and null check.
+** Source URL: https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B
+*/
+
 import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
@@ -72,7 +96,10 @@ export const Reviews = () => {
   const getReviews = async () => {
     const response = await fetch(`${baseUrl}/reviews`);
     const responseData = await response.json();
+
+    //Source:[1]
     responseData.sort((a,b) => a.reviewID - b.reviewID);
+
     setReviews(responseData);
   };
 
@@ -223,6 +250,7 @@ export const Reviews = () => {
               onChange={(e) => setSelectedTrailID(e.target.value)}
               value={selectedTrailID}
             >
+              {/* Source:[2] */}
               <option value={selectedTrailID} selected disabled hidden>{selectedTrailID}</option>
               {trailChoices.map((c) => (
                 <option key={c}>{c}</option>
@@ -281,6 +309,7 @@ export const Reviews = () => {
               <label> User </label>
               <select 
                 onChange={(e) => onChangeEdit("userID", e)}>
+                {/* Sources:[2],[3] */}
                 <option value={selectedReview.userID} selected disabled hidden>
                   {userChoices.find(element => element.includes(selectedReview.userID?.toString())) ?? "None"}
                 </option>
@@ -291,6 +320,7 @@ export const Reviews = () => {
               </select>
               <label> Trail </label>
               <select onChange={(e) => onChangeEdit("trailID", e)}>
+                {/* Source:[2],[3] */}
                 <option value={selectedReview.trailID} selected disabled hidden>
                   {trailChoices.find(element => element.includes(selectedReview.trailID?.toString())) ?? 99}
                 </option>
