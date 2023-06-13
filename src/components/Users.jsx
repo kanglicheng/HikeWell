@@ -56,12 +56,12 @@ export const Users = () => {
   }, [newUser])
 
   const isEditDisabled = React.useMemo(()=>{
-    if(!selectedUser.userName){
+    if(!selectedUser.userName || !selectedUser.experienceLevel){
       return true;
     }else{
       return false;
     }
-  }, [selectedUser.userName])
+  }, [selectedUser])
 
 
   const handleDelete = async (userID) => {
@@ -193,7 +193,7 @@ export const Users = () => {
           </label>
           <form>
             <div>
-              <label> Username </label>
+              <label> Username* </label>
               <input
                 onChange={(e) => onChangeEdit("userName", e)}
                 value={selectedUser.userName}
@@ -207,7 +207,7 @@ export const Users = () => {
               />
             </div>
             <div>
-              <label> Experience Level (1-10) </label>
+              <label> Experience Level (1-10)* </label>
               <input
                 value={selectedUser.experienceLevel}
                 onChange={(e) => onChangeEdit("experienceLevel", e)}
@@ -221,6 +221,7 @@ export const Users = () => {
                 Edit User{" "}
               </button>
               <button onClick={() => setShowForm(false)}>Cancel</button>
+              <span> * indicates field is required</span>
             </div>
           </form>
         </div>
