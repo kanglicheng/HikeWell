@@ -1,6 +1,6 @@
+import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
-import axios from "axios";
 
 export const TrailMaps = () => {
   const [showForm, setShowForm] = React.useState(false);
@@ -81,7 +81,7 @@ export const TrailMaps = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
