@@ -1,9 +1,9 @@
-import "./App.css";
 import React from "react";
+import "./App.css";
 
 function App() {
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>

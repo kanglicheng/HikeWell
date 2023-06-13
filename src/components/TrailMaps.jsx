@@ -1,6 +1,6 @@
+import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
-import axios from "axios";
 
 export const TrailMaps = () => {
   const [showForm, setShowForm] = React.useState(false);
@@ -16,6 +16,13 @@ export const TrailMaps = () => {
     setShowForm(true);
     setSelectedTrailMap(trailMaps[i]);
   };
+
+  const isDisabled = React.useMemo(()=>{
+    if(!currentTrail  || currentTrail === "None" || currentMap === "None" || !currentMap){
+      return true;
+    }
+    return false;
+  }, [currentMap, currentTrail])
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -81,7 +88,7 @@ export const TrailMaps = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -136,7 +143,7 @@ export const TrailMaps = () => {
             </select>
           </div>
           <div style={{ margin: "10px" }}>
-            <button onClick={handleAddTrailMap}> Add TrailMap</button>
+            <button disabled={isDisabled} onClick={handleAddTrailMap}> Add TrailMap</button>
           </div>
         </form>
       </div>

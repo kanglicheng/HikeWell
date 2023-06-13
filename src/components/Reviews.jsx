@@ -1,5 +1,5 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { baseUrl } from "./constants";
 
 export const Reviews = () => {
@@ -29,8 +29,6 @@ export const Reviews = () => {
     selectedReview.enjoyability = Math.round(selectedReview.enjoyability);
     selectedReview.difficulty = Math.round(selectedReview.difficulty);
 
-    console.log(selectedReview.enjoyability);
-    console.log(selectedReview.difficulty);
     if(selectedReview.enjoyability == null || Number.isNaN(selectedReview.enjoyability)) newReview.enjoyability = 1;
     if(selectedReview.difficulty == null || Number.isNaN(selectedReview.difficulty)) newReview.difficulty = 1;
     if(selectedReview.description == null) selectedReview.description = "";
@@ -119,8 +117,6 @@ export const Reviews = () => {
     newReview.enjoyability = Math.round(newReview.enjoyability);
     newReview.difficulty = Math.round(newReview.difficulty);
 
-    console.log(newReview.enjoyability);
-    console.log(newReview.difficulty);
     if(newReview.enjoyability == null || Number.isNaN(newReview.enjoyability)) newReview.enjoyability = 1;
     if(newReview.difficulty == null || Number.isNaN(newReview.difficulty)) newReview.difficulty = 1;
     if(newReview.description == null) newReview.description = "";
@@ -135,16 +131,19 @@ export const Reviews = () => {
         trailID: Number(selectedTrailID.split(" ")[0]),
       })
       .then((response) => getReviews());
-/*
-    newReview.enjoyability = '1';
-    newReview.difficulty = '1';
-    newReview.description = '';
-    setSelectedUserID(null);
-    setSelectedTrailID(null);*/
+        
   };
 
+  const isDisabled = React.useMemo(()=>{
+    if(!newReview.enjoyability || !newReview.difficulty || ! newReview.description || !selectedTrailID){
+      return true;
+    }
+    return false;
+
+  }, [newReview, selectedTrailID])
+
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -223,7 +222,7 @@ export const Reviews = () => {
             </select>
           </div>
           <div style={{ margin: "10px" }}>
-            <button type={"submit"} onClick={handleAdd}>
+            <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Review{" "}
             </button>
           </div>
