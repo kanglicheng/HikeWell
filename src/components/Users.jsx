@@ -6,17 +6,16 @@
 ** Source URL: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
 */
 
-
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { baseUrl } from "./constants";
 
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
   const [showForm, setShowForm] = React.useState(false);
-  const [selectedUser, setSelectedUser] = React.useState({});
+  const [selectedUser, setSelectedUser] = React.useState({userName:'', contact: undefined, experienceLevel: undefined});
 
-  const [newUser, setNewUser] = React.useState({});
+  const [newUser, setNewUser] = React.useState({userName:'', contact: undefined, experienceLevel: undefined});
 
   const onChange = (key, e) => {
     if(newUser.experienceLevel > 10) newUser.experienceLevel = 10;
@@ -48,6 +47,23 @@ export const Users = () => {
     getUsers();
   }, []);
 
+  const isDisabled = React.useMemo(()=>{
+    if(!newUser.userName || !newUser.experienceLevel){
+      return true;
+    }else{
+      return false;
+    }
+  }, [newUser])
+
+  const isEditDisabled = React.useMemo(()=>{
+    if(!selectedUser.userName){
+      return true;
+    }else{
+      return false;
+    }
+  }, [selectedUser.userName])
+
+
   const handleDelete = async (userID) => {
     axios
       .post(`${baseUrl}/deleteUser`, {
@@ -69,11 +85,12 @@ export const Users = () => {
     axios
       .post(`${baseUrl}/addUser`, {
         userName: newUser.userName,
-        contact: newUser.contact,
+        contact: newUser.contact || '',
         experienceLevel: Number(newUser.experienceLevel),
       })
       .then((response) => {
         getUsers();
+        setNewUser({userName:'', contact: undefined, experienceLevel: undefined});
       })
       .catch((err) => console.log(err));
   };
@@ -102,7 +119,7 @@ export const Users = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -135,7 +152,7 @@ export const Users = () => {
         </label>
         <form>
           <div>
-            <label> Username </label>
+            <label> Username* </label>
             <input
               onChange={(e) => onChange("userName", e)}
               value={newUser.userName}
@@ -149,7 +166,7 @@ export const Users = () => {
             />
           </div>
           <div>
-            <label> Experience Level (1-10) </label>
+            <label> Experience Level (1-10)* </label>
             <input
               value={newUser.experienceLevel}
               onChange={(e) => onChange("experienceLevel", e)}
@@ -159,9 +176,10 @@ export const Users = () => {
             />
           </div>
           <div style={{ margin: "10px" }}>
-            <button type={"submit"} onClick={handleAdd}>
+            <button disabled={isDisabled} type={"submit"} onClick={handleAdd}>
               Add User{" "}
             </button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -199,7 +217,7 @@ export const Users = () => {
               />
             </div>
             <div style={{ margin: "10px" }}>
-              <button type={"submit"} onClick={handleEdit}>
+              <button disabled={isEditDisabled} type={"submit"} onClick={handleEdit}>
                 Edit User{" "}
               </button>
               <button onClick={() => setShowForm(false)}>Cancel</button>

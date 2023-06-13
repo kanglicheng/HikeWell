@@ -14,15 +14,19 @@
 ** Source URL: https://linuxhint.com/round-number-to-2-decimal-places-javascript/
 */
 
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { baseUrl } from "./constants";
 
 export const Trails = () => {
   const [showForm, setShowForm] = React.useState(false);
   const [trails, setTrails] = React.useState([]);
-  const [newTrail, setNewTrail] = React.useState({});
-  const [selectedTrail, setSelectedTrail] = React.useState({});
+  const [newTrail, setNewTrail] = React.useState({
+    name: '', city: '', state: '', lat: undefined, lng: undefined, distance: undefined
+  });
+  const [selectedTrail, setSelectedTrail] = React.useState({
+    name: '', city: '', state: '', lat: undefined, lng: undefined, distance: undefined
+  });
 
   const onChangeNew = (key, e) => {
     if(newTrail.lat > 90) newTrail.lat = 90;
@@ -67,6 +71,30 @@ export const Trails = () => {
   React.useEffect(() => {
     getTrails();
   }, []);
+
+  const isDisabled = React.useMemo(()=>{
+
+    if(!newTrail.name || !newTrail.city || !newTrail.state || !newTrail.lat || 
+      !newTrail.lng || !newTrail.distance){
+        return true;
+      }
+    else {
+      return false;
+    }
+
+  }, [newTrail])
+
+  const isEditDisabled = React.useMemo(()=>{
+
+    if(!selectedTrail.name || !selectedTrail.city || !selectedTrail.state || !selectedTrail.lat || 
+      !selectedTrail.lng || !selectedTrail.distance){
+        return true;
+      }
+    else {
+      return false;
+    }
+
+  }, [selectedTrail])
 
   const handleDelete = (trailID) => {
     axios
@@ -142,7 +170,7 @@ export const Trails = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -175,13 +203,13 @@ export const Trails = () => {
         </label>
         <form>
           <div>
-            <label> Name </label>
+            <label> Name* </label>
             <input
               value={newTrail.name || ""}
               onChange={(e) => onChangeNew("name", e)}
               type="text"
             />
-            <label> City </label>
+            <label> City* </label>
             <input
               onChange={(e) => onChangeNew("city", e)}
               value={newTrail.city || ""}
@@ -189,13 +217,13 @@ export const Trails = () => {
             />
           </div>
           <div>
-            <label> State </label>
+            <label> State* </label>
             <input
               onChange={(e) => onChangeNew("state", e)}
               value={newTrail.state || ""}
               type="text"
             />
-            <label> Latitude </label>
+            <label> Latitude* </label>
             <input
               onChange={(e) => onChangeNew("lat", e)}
               value={newTrail.lat || ""}
@@ -203,7 +231,7 @@ export const Trails = () => {
               min="-90"
               max="90"
             />
-            <label> Longitude </label>
+            <label> Longitude* </label>
             <input
               onChange={(e) => onChangeNew("lng", e)}
               value={newTrail.lng || ""}
@@ -220,9 +248,10 @@ export const Trails = () => {
             />
           </div>
           <div style={{ margin: "10px" }}>
-            <button type={"submit"} onClick={handleAdd}>
+            <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Trail{" "}
             </button>
+            <span>* denotes required field</span>
           </div>
         </form>
       </div>
@@ -290,7 +319,7 @@ export const Trails = () => {
                 min="0"
               />
             </div>
-            <button type={"submit"} onClick={handleEdit}>
+            <button type={"submit"} onClick={handleEdit} disabled={isEditDisabled}>
               Update Trail
             </button>
             <button onClick={() => setShowForm(false)}>Cancel</button>

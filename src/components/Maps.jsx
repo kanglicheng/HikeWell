@@ -6,15 +6,15 @@
 ** Source URL: https://stackoverflow.com/questions/1129216/sort-array-of-objects-by-string-property-value
 */
 
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { baseUrl } from "./constants";
 
 export const Maps = () => {
   const [showForm, setShowForm] = React.useState(false);
   const [maps, setMaps] = React.useState([]);
-  const [newMap, setNewMap] = React.useState({});
-  const [selectedMap, setSelectedMap] = React.useState({});
+  const [newMap, setNewMap] = React.useState({url: '', title: ''});
+  const [selectedMap, setSelectedMap] = React.useState({url: '', title: ''});
 
   const onChangeNew = (key, e) => {
     setNewMap({ ...newMap, [key]: e.target.value });
@@ -38,11 +38,31 @@ export const Maps = () => {
     getMaps();
   }, []);
 
+  const isDisabled = React.useMemo(()=> {
+    if(!newMap.url){
+      return true;
+    }
+    else{
+      return false;
+    }
+
+  }, [newMap.url])
+
+  const isEditDisabled = React.useMemo(()=> {
+    if(!selectedMap.url){
+      return true;
+    }
+    else{
+      return false;
+    }
+
+  }, [selectedMap.url])
+
   const handleAdd = (e) => {
     e.preventDefault();
     axios
       .post(`${baseUrl}/addMap`, {
-        title: newMap.title,
+        title: newMap.title || '',
         url: newMap.url,
       })
       .then((res) => {
@@ -80,7 +100,7 @@ export const Maps = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -115,11 +135,12 @@ export const Maps = () => {
           <div>
             <label> Title </label>
             <input type="text" onChange={(e) => onChangeNew("title", e)} />
-            <label> URL </label>
+            <label> URL* </label>
             <input type="text" onChange={(e) => onChangeNew("url", e)} />
           </div>
           <div style={{ margin: "10px" }}>
-            <button onClick={handleAdd}>Add Map </button>
+            <button disabled={isDisabled} onClick={handleAdd}>Add Map </button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -153,7 +174,7 @@ export const Maps = () => {
               />
             </div>
             <div style={{ margin: "10px" }}>
-              <button type={"submit"} onClick={handleEdit}>
+              <button disabled={isEditDisabled} type={"submit"} onClick={handleEdit}>
               Update Map
               </button>
               <button onClick={() => setShowForm(false)}>Cancel</button>
@@ -181,7 +202,7 @@ export const Maps = () => {
             {maps.map((row, i) => (
               <tr key={row.mapID}>
                 <td>{row.mapID}</td>
-                <td>{row.title}</td>
+                <td>{row.title || 'null'}</td>
                 <td>{row.url}</td>
                 <td>
                   <button onClick={() => editBox(i)}>Edit</button>

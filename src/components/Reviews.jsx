@@ -22,8 +22,8 @@
 ** Source URL: https://stackoverflow.com/questions/4556099/how-do-you-search-an-array-for-a-substring-match#:~:text=The%20simplest%20way%20to%20get,includes(%22substring%22))%3B
 */
 
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { baseUrl } from "./constants";
 
 export const Reviews = () => {
@@ -53,8 +53,6 @@ export const Reviews = () => {
     selectedReview.enjoyability = Math.round(selectedReview.enjoyability);
     selectedReview.difficulty = Math.round(selectedReview.difficulty);
 
-    console.log(selectedReview.enjoyability);
-    console.log(selectedReview.difficulty);
     if(selectedReview.enjoyability == null || Number.isNaN(selectedReview.enjoyability)) newReview.enjoyability = 1;
     if(selectedReview.difficulty == null || Number.isNaN(selectedReview.difficulty)) newReview.difficulty = 1;
     if(selectedReview.description == null) selectedReview.description = "";
@@ -146,8 +144,6 @@ export const Reviews = () => {
     newReview.enjoyability = Math.round(newReview.enjoyability);
     newReview.difficulty = Math.round(newReview.difficulty);
 
-    console.log(newReview.enjoyability);
-    console.log(newReview.difficulty);
     if(newReview.enjoyability == null || Number.isNaN(newReview.enjoyability)) newReview.enjoyability = 1;
     if(newReview.difficulty == null || Number.isNaN(newReview.difficulty)) newReview.difficulty = 1;
     if(newReview.description == null) newReview.description = "";
@@ -162,16 +158,27 @@ export const Reviews = () => {
         trailID: Number(selectedTrailID.split(" ")[0]),
       })
       .then((response) => getReviews());
-/*
-    newReview.enjoyability = '1';
-    newReview.difficulty = '1';
-    newReview.description = '';
-    setSelectedUserID(null);
-    setSelectedTrailID(null);*/
+        
   };
 
+  const isDisabled = React.useMemo(()=>{
+    if(!newReview.enjoyability || !newReview.difficulty || ! newReview.description || !selectedTrailID){
+      return true;
+    }
+    return false;
+
+  }, [newReview, selectedTrailID])
+
+  const isEditDisabled =  React.useMemo(()=>{
+    if(!selectedReview.enjoyability || !selectedReview.difficulty || ! selectedReview.description || !selectedTrailID){
+      return true;
+    }
+    return false;
+
+  }, [selectedReview, selectedTrailID])
+
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -204,7 +211,7 @@ export const Reviews = () => {
         </label>
         <form>
           <div>
-            <label> Enjoyability (1-10) </label>
+            <label> Enjoyability (1-10)* </label>
             <input 
               onChange={(e) => onChange("enjoyability", e)}
               value={newReview.enjoyability}
@@ -212,7 +219,7 @@ export const Reviews = () => {
               min="1"
               max="10"
             />
-            <label> Difficulty  (1-10) </label>
+            <label> Difficulty  (1-10)* </label>
             <input 
               onChange={(e) => onChange("difficulty", e)}
               value={newReview.difficulty}
@@ -222,7 +229,7 @@ export const Reviews = () => {
             />
           </div>
           <div>
-            <label> Description </label>
+            <label> Description* </label>
             <input 
               onChange={(e) => onChange("description", e)}
               value={newReview.description}
@@ -238,7 +245,7 @@ export const Reviews = () => {
                 <option key={u}>{u}</option>
               ))}
             </select>
-            <label> Trail </label>
+            <label> Trail* </label>
             <select
               onChange={(e) => setSelectedTrailID(e.target.value)}
               value={selectedTrailID}
@@ -251,9 +258,10 @@ export const Reviews = () => {
             </select>
           </div>
           <div style={{ margin: "10px" }}>
-            <button type={"submit"} onClick={handleAdd}>
+            <button type={"submit"} onClick={handleAdd} disabled={isDisabled}>
               Add Review{" "}
             </button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -271,7 +279,7 @@ export const Reviews = () => {
           </label>
           <form>
             <div>
-              <label> Enjoyability (1-10) </label>
+              <label> Enjoyability (1-10)* </label>
               <input
                 onChange={(e) => onChangeEdit("enjoyability", e)}
                 value={selectedReview.enjoyability}
@@ -280,7 +288,7 @@ export const Reviews = () => {
                 min="1"
                 max="10"
               />
-              <label> Difficulty (1-10) </label>
+              <label> Difficulty (1-10)* </label>
               <input
                 onChange={(e) => onChangeEdit("difficulty", e)}
                 value={selectedReview.difficulty}
@@ -321,7 +329,7 @@ export const Reviews = () => {
                 ))}
               </select>
             </div>
-            <button onClick={handleUpdate}>Update Review</button>
+            <button disabled={isEditDisabled} onClick={handleUpdate}>Update Review</button>
             <button onClick={() => setShowForm(false)}>Cancel</button>
           </form>
         </div>

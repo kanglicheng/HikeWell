@@ -1,6 +1,6 @@
+import axios from "axios";
 import React from "react";
 import { baseUrl } from "./constants";
-import axios from "axios";
 
 export const TrailMaps = () => {
   const [showForm, setShowForm] = React.useState(false);
@@ -16,6 +16,21 @@ export const TrailMaps = () => {
     setShowForm(true);
     setSelectedTrailMap(trailMaps[i]);
   };
+
+  const isDisabled = React.useMemo(()=>{
+    if(!currentTrail  || currentTrail === "None" || currentMap === "None" || !currentMap){
+      return true;
+    }
+    return false;
+  }, [currentMap, currentTrail])
+
+  const isEditDisabled = React.useMemo(()=>{
+    if(!selectedTrailMap || !selectedTrailMap.newTrailID || ! selectedTrailMap.newMapID || selectedTrailMap.newMapID === "None" 
+    || selectedTrailMap.newTrailID === "None"){
+      return true;
+    }
+    return false;
+  }, [selectedTrailMap])
 
   const handleUpdate = (e) => {
     e.preventDefault();
@@ -82,7 +97,7 @@ export const TrailMaps = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>HikeWell DB Admin</h2>
       <nav className={"nav-bar"}>
         <ul>
@@ -137,7 +152,8 @@ export const TrailMaps = () => {
             </select>
           </div>
           <div style={{ margin: "10px" }}>
-            <button onClick={handleAddTrailMap}> Add TrailMap</button>
+            <button disabled={isDisabled} onClick={handleAddTrailMap}> Add TrailMap</button>
+            <span> * indicates field is required</span>
           </div>
         </form>
       </div>
@@ -155,7 +171,7 @@ export const TrailMaps = () => {
           </label>
           <form>
             <div>
-              <label> Trail </label>
+              <label> Trail* </label>
               <select 
                 onChange={(e) => onChangeEdit("newTrailID", e)}>
                 <option value="">None</option>
@@ -163,7 +179,7 @@ export const TrailMaps = () => {
                   <option key={u}>{u}</option>
                 ))}
               </select>
-              <label> Map </label>
+              <label> Map* </label>
               <select onChange={(e) => onChangeEdit("newMapID", e)}>
                 <option value="">None</option>
                 {mapIDs.map((c) => (
@@ -172,7 +188,7 @@ export const TrailMaps = () => {
               </select>
             </div>
             <div style={{ margin: "10px" }}>
-              <button onClick={handleUpdate}>Update Review</button>
+              <button disabled={isEditDisabled} onClick={handleUpdate}>Update TrailMap</button>
               <button onClick={() => setShowForm(false)}>Cancel</button>
             </div>
           </form>
