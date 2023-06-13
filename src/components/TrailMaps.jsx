@@ -72,10 +72,11 @@ export const TrailMaps = () => {
       });
   };
 
-  const handleDelete = (trailID) => {
+  const handleDelete = (trailID, mapID) => {
     axios
       .post(`${baseUrl}/deleteTrailMap`, {
         trailID: Number(trailID),
+        mapID: Number(mapID),
       })
       .then((response) => getTrailMaps());
   };
@@ -198,7 +199,7 @@ export const TrailMaps = () => {
                   <button onClick={() => handleEdit(i)}>Edit</button>
                 </td>
                 <td>
-                  <button onClick={() => handleDelete(row.trailID)}>
+                  <button onClick={() => handleDelete(row.trailID, row.mapID)}>
                     Delete
                   </button>
                 </td>
