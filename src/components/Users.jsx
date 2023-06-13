@@ -5,9 +5,9 @@ import { baseUrl } from "./constants";
 export const Users = () => {
   const [users, setUsers] = React.useState([]);
   const [showForm, setShowForm] = React.useState(false);
-  const [selectedUser, setSelectedUser] = React.useState({});
+  const [selectedUser, setSelectedUser] = React.useState({userName:'', contact: undefined, experienceLevel: undefined});
 
-  const [newUser, setNewUser] = React.useState({});
+  const [newUser, setNewUser] = React.useState({userName:'', contact: undefined, experienceLevel: undefined});
 
   const onChange = (key, e) => {
     if(newUser.experienceLevel > 10) newUser.experienceLevel = 10;
@@ -36,6 +36,23 @@ export const Users = () => {
     getUsers();
   }, []);
 
+  const isDisabled = React.useMemo(()=>{
+    if(!newUser.userName){
+      return true;
+    }else{
+      return false;
+    }
+  }, [newUser.userName])
+
+  const isEditDisabled = React.useMemo(()=>{
+    if(!selectedUser.userName){
+      return true;
+    }else{
+      return false;
+    }
+  }, [selectedUser.userName])
+
+
   const handleDelete = async (userID) => {
     axios
       .post(`${baseUrl}/deleteUser`, {
@@ -57,11 +74,12 @@ export const Users = () => {
     axios
       .post(`${baseUrl}/addUser`, {
         userName: newUser.userName,
-        contact: newUser.contact,
+        contact: newUser.contact || '',
         experienceLevel: Number(newUser.experienceLevel),
       })
       .then((response) => {
         getUsers();
+        setNewUser({userName:'', contact: undefined, experienceLevel: undefined});
       })
       .catch((err) => console.log(err));
   };
@@ -147,7 +165,7 @@ export const Users = () => {
             />
           </div>
           <div style={{ margin: "10px" }}>
-            <button type={"submit"} onClick={handleAdd}>
+            <button disabled={isDisabled} type={"submit"} onClick={handleAdd}>
               Add User{" "}
             </button>
           </div>
@@ -187,7 +205,7 @@ export const Users = () => {
               />
             </div>
             <div style={{ margin: "10px" }}>
-              <button type={"submit"} onClick={handleEdit}>
+              <button disabled={isEditDisabled} type={"submit"} onClick={handleEdit}>
                 Edit User{" "}
               </button>
               <button onClick={() => setShowForm(false)}>Cancel</button>

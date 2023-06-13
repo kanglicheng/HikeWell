@@ -17,6 +17,13 @@ export const TrailMaps = () => {
     setSelectedTrailMap(trailMaps[i]);
   };
 
+  const isDisabled = React.useMemo(()=>{
+    if(!currentTrail  || currentTrail === "None" || currentMap === "None" || !currentMap){
+      return true;
+    }
+    return false;
+  }, [currentMap, currentTrail])
+
   const handleUpdate = (e) => {
     e.preventDefault();
     axios
@@ -136,7 +143,7 @@ export const TrailMaps = () => {
             </select>
           </div>
           <div style={{ margin: "10px" }}>
-            <button onClick={handleAddTrailMap}> Add TrailMap</button>
+            <button disabled={isDisabled} onClick={handleAddTrailMap}> Add TrailMap</button>
           </div>
         </form>
       </div>
